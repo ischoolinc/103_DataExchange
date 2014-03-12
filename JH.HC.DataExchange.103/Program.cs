@@ -272,21 +272,25 @@ namespace JH.HS.DataExchange._103
                         }
                         row["學生身分"] = (strtmp == "" ? "0" : strtmp);
                         strtmp = "";
-                        foreach (KeyValuePair<string, int> item in new Dictionary<string, int>(){
+                        foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                                                                 //{"非身心障礙考生",0},
-                                                                {"智能障礙",1},
-                                                                {"視覺障礙",2},
-                                                                {"聽覺障礙",3},
-                                                                {"語言障礙",4},
-                                                                {"肢體障礙",5},
-                                                                {"身體病弱",6},
-                                                                {"情緒行為障礙",7},
-                                                                {"學習障礙",8},
-                                                                {"多重障礙A/自閉症B/其他障礙",9}})
+                                                                {"智能障礙","1"},
+                                                                {"視覺障礙","2"},
+                                                                {"聽覺障礙","3"},
+                                                                {"語言障礙","4"},
+                                                                {"肢體障礙","5"},
+                                                                {"身體病弱","6"},
+                                                                {"情緒行為障礙","7"},
+                                                                {"學習障礙","9"},
+                                                                {"自閉症","A"},
+                                                                {"其他障礙","B"}})
                         {
                             if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
+                            {
                                 //row["身心障礙"] = ("" + row["身心障礙"]) + item.Value;//17
                                 strtmp += item.Value;
+                                break;
+                            }
                         }
                         row["身心障礙"] = string.IsNullOrEmpty(strtmp) ? "0" : strtmp;
 
