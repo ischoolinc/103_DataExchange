@@ -266,21 +266,28 @@ namespace JH.TC.DataExchange._103
                         }
                         row["學生身分"] = (strtmp == "" ? "0" : strtmp);
                         strtmp = "";
-                        foreach (KeyValuePair<string, int> item in new Dictionary<string, int>(){
+                        foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                                                                 //{"非身心障礙考生",0},
-                                                                {"智能障礙",1},
-                                                                {"視覺障礙",2},
-                                                                {"聽覺障礙",3},
-                                                                {"語言障礙",4},
-                                                                {"肢體障礙",5},
-                                                                {"身體病弱",6},
-                                                                {"情緒行為障礙",7},
-                                                                {"學習障礙",8},
-                                                                {"多重障礙A/自閉症B/其他障礙",9}})
+                                                                {"智能障礙","1"},
+                                                                {"視覺障礙","2"},
+                                                                {"聽覺障礙","3"},
+                                                                {"語言障礙","4"},
+                                                                {"肢體障礙","5"},
+                                                                {"腦性麻痺","6"},
+                                                                {"身體病弱","7"},
+                                                                {"情緖行為障礙","8"},
+                                                                {"學習障礙","9"},
+                                                                {"多重障礙","A"},
+                                                                {"自閉症","B"},
+                                                                {"發展遲緩","C"},
+                                                                {"其他障礙","D"}})
                         {
                             if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
+                            {
                                 //row["身心障礙"] = ("" + row["身心障礙"]) + item.Value;//17
                                 strtmp += item.Value;
+                                break;
+                            }
                         }
                         row["身心障礙"] = string.IsNullOrEmpty(strtmp) ? "0" : strtmp;
 
@@ -337,7 +344,7 @@ namespace JH.TC.DataExchange._103
         public static void CompletedXls(string inputReportName, DataTable dt, Workbook inputXls)
         {
 
-            string reportName = inputReportName;
+            string reportName = "中投區免試報名上傳資料";
 
 
             string path = Path.Combine(Application.StartupPath, "Reports");
@@ -348,7 +355,7 @@ namespace JH.TC.DataExchange._103
             Workbook wb = inputXls;
 
             wb.Worksheets[0].Cells.ImportDataTable(dt, true, "A1");
-            wb.Worksheets[0].Name = "student";
+            wb.Worksheets[0].Name = "Student";
             wb.Worksheets[0].AutoFitColumns();
             if (File.Exists(path))
             {
