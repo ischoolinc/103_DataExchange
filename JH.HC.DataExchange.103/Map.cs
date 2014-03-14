@@ -17,7 +17,7 @@ namespace JH.HS.DataExchange._103
 
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
         private List<MapRecord> _MapRecords = new List<MapRecord>();
-        public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "自閉症", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "就近入學" };
+        public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙", "自閉症", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "就近入學" };
         public string AbsenceType = "";
         public Map()
         {
