@@ -50,8 +50,9 @@ namespace JH.HS.DataExchange._103
                     AccessHelper _A = new AccessHelper();
                     DataTable dt = new DataTable(), tmp;
                     #region 取得及整理資料
-                    tmp = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year = 3");
+                    tmp = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (3, 9)");
                     List<string> sids = new List<string>();
+                    sids.Add("-1");
                     foreach (DataRow row in tmp.Rows)
                     {
                         sids.Add("" + row[0]);
