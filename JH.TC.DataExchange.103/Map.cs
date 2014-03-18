@@ -51,7 +51,8 @@ namespace JH.TC.DataExchange._103
                         if (index == 1)
                         {
                             row.Cells[1].Value = item.value;
-                            row.Cells[2].Value = item.note;
+                            if (StudentTag.Items.Contains(item.note))
+                                row.Cells[2].Value = item.note;
                         }
                         index++;
                     }
