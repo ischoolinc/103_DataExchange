@@ -83,11 +83,14 @@ namespace JH.TC.DataExchange._103
                     {
                         int arGrade = 0;
                         #region match GradeYear
-                        foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
-                        {
-                            if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
-                                arGrade = item.GradeYear;
-                        }
+                       
+                            if (dSShr != null && ar.Student !=null && ar.Student.ID != null)
+                                if (dSShr.ContainsKey(ar.Student.ID))
+                                    foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
+                                    {
+                                        if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
+                                            arGrade = item.GradeYear;
+                                    }                   
 
                         #endregion
                         foreach (var ap in ar.AbsenceCounts)
