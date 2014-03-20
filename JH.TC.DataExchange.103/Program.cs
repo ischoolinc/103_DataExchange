@@ -81,6 +81,7 @@ namespace JH.TC.DataExchange._103
                     Dictionary<string, PeriodMappingInfo> dPmi = K12.Data.PeriodMapping.SelectAll().ToDictionary(x => x.Name, x => x);
                     foreach (var ar in arl2)
                     {
+                        if (ar.RefStudentID == "-1") continue;
                         int arGrade = 0;
                         #region match GradeYear
                         foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
