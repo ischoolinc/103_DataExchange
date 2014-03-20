@@ -50,8 +50,15 @@ namespace JH.TC.DataExchange._103
                     {
                         if (index == 1)
                         {
-                            row.Cells[1].Value = item.value;
-                            row.Cells[2].Value = item.note;
+                            if (StudentTag.Items.Contains(item.value))
+                                row.Cells[1].Value = item.value;
+                            else
+                                row.Cells[1].Value = "";
+
+                            if (StudentTag.Items.Contains(item.note))
+                                row.Cells[2].Value = item.note;
+                            else
+                                row.Cells[2].Value = "";
                         }
                         index++;
                     }
@@ -89,6 +96,11 @@ namespace JH.TC.DataExchange._103
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             new AbsenceMap().ShowDialog();
+        }
+
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
         }
     }
 }

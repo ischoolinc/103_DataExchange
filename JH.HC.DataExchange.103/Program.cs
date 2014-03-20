@@ -61,6 +61,7 @@ namespace JH.HS.DataExchange._103
                     //List<AttendanceRecord> arl = K12.Data.Attendance.SelectByStudentIDs(sids);
                     var arl2 = K12.BusinessLogic.AutoSummary.Select(sids, null);
                     List<custStudentRecord> csrl = new List<custStudentRecord>();
+
                     tmp = _Q.Select("SELECT student.*," +
                                         "class.class_name ,class.grade_year AS class_grade_year,class.ref_dept_id AS class_ref_dept_id," +
                                         "dept.name AS dept_name " +
@@ -68,7 +69,8 @@ namespace JH.HS.DataExchange._103
                                     "LEFT JOIN class ON student.ref_class_id = class.id " +
                                     "LEFT JOIN dept ON dept.id = class.ref_dept_id " +
                                     "WHERE student.id IN (" + string.Join(",", sids) + ")" +
-                                    "ORDER BY class.display_order, class.class_name, seat_no");
+                                    "ORDER BY class.display_order, class.class_name, seat_no");                 
+
                     foreach (DataRow row in tmp.Rows)
                     {
                         csrl.Add(new custStudentRecord(row));
@@ -83,13 +85,22 @@ namespace JH.HS.DataExchange._103
                     {
                         if (ar.RefStudentID == "-1") continue;
                         int arGrade = 0;
-                        #region match GradeYear
-                        foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
+                        try
                         {
-                            if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
-                                arGrade = item.GradeYear;
-                        }
+                            #region match GradeYear
+                            if (dSShr != null && ar.Student !=null && ar.Student.ID !=null)
+                                if (dSShr.ContainsKey(ar.Student.ID))
+                                    foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
+                                    {
+                                        if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
+                                            arGrade = item.GradeYear;
+                                    }
 
+                        }
+                        catch (Exception exx)
+                        { 
+                        
+                        }
                         #endregion
                         foreach (var ap in ar.AbsenceCounts)
                         {//ap.Name
