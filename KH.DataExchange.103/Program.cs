@@ -168,7 +168,19 @@ namespace KH.DataExchange._103
         }
         public static void CompletedXls(string inputReportName, DataTable dt, Workbook inputXls)
         {
+            //遮蔽九下成績資料
+            if (dt.Columns.Contains("科目") && dt.Columns.Contains("9下成績"))
+            {
+                List<string> avoids = new List<string>(new string[] { "藝術與人文", "健康與體育", "綜合活動" });
+                foreach (DataRow row in dt.Rows)
+                {
+                    string subject = row["科目"].ToString();
 
+                    if (avoids.Contains(subject))
+                        row["9下成績"] = "";
+                }
+            }
+            
             string reportName = inputReportName;
 
 
