@@ -226,7 +226,8 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("郵遞區號");
                     dt.Columns.Add("通訊地址");
                     dt.Columns.Add("原住民是否含母語認證");
-                    dt.Columns.Add("密碼");
+                    dt.Columns.Add("非中華民國身分證號");
+                    dt.Columns.Add("特殊生加分百分比");
                     dt.Columns.Add("扶助弱勢");
                     dt.Columns.Add("就近入學");
                     dt.Columns.Add("健康與體育");
@@ -252,7 +253,7 @@ namespace JH.HS.DataExchange._103
                         DataRow row = dt.NewRow();
                         #region 填入資料
                         row["考區代碼"] = "06";//1
-                        row["集報單位代碼"] = "";//2
+                        row["集報單位代碼"] = School.Code;//2
                         row["序號"] = seq;//3
                         row["學號"] = csr.StudentNumber;//4
                         row["班級"] = csr.ClassName;//5
@@ -318,16 +319,25 @@ namespace JH.HS.DataExchange._103
                         row["市內電話"] = csr.ContactPhone != null ? csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//24
                         row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
                         row["郵遞區號"] = csr.MallingAddressZipCode;//26
-                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
+
+                        string address = "";
+                        if (!string.IsNullOrWhiteSpace(csr.MallingAddress))
+                            address = csr.MallingAddress.Replace("[]", "");
+                        else if (!string.IsNullOrWhiteSpace(csr.PermanentAddress))
+                            address = csr.PermanentAddress.Replace("[]", "");
+
+                        row["通訊地址"] = address;//27
+                        //row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
                         row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
-                        row["密碼"] = "";//29
+                        row["非中華民國身分證號"] = "";//29
+                        row["特殊生加分百分比"] = "";//29
                         row["扶助弱勢"] = null;//30
                         row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? "符合" : "不符合";//31
 
-                        row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有記錄" : "無記錄";//35
-                        row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有記錄" : "無記錄";//36
-                        row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有記錄" : "無記錄";//37
-                        row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有記錄" : "無記錄";//38
+                        row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有紀錄" : "無紀錄";//35
+                        row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有紀錄" : "無紀錄";//36
+                        row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有紀錄" : "無紀錄";//37
+                        row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有紀錄" : "無紀錄";//38
                         if (dSGrade.ContainsKey(csr.ID))
                         {
                             row["健康與體育"] = dSGrade[csr.ID][1];//32
