@@ -48,6 +48,10 @@ namespace JH.TC.DataExchange._103
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     AccessHelper _A = new AccessHelper();
+
+                    //確保UDT(K12.ResultScore.Universal)存在
+                    _A.Select<ResultScoreRecord>();
+
                     DataTable dt = new DataTable(), tmp;
                     #region 取得及整理資料
                     tmp = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (3, 9)");
