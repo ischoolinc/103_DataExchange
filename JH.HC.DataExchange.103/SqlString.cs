@@ -19,6 +19,8 @@ select
     ,disc.大過支數
     ,disc.小過支數
     ,disc.警告支數
+    ,slr.服務學習時數_七上
+    ,slr.服務學習時數_七下
     ,slr.服務學習時數_八上
     ,slr.服務學習時數_八下
     ,slr.服務學習時數_九上
@@ -47,7 +49,9 @@ from
                     left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9) )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9) )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9) )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9) )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9) )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9) )') AS tmp(id int, SchoolYear integer) group by id )as g6 on g6.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year in (3, 9))shistory on student.id=shistory.id
 			        left join sems_subj_score as x1 on student.id=x1.ref_student_id
 			            and (
-				            (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)--二上二下三上
+				            (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)--ㄧ上一下二上二下三上
+                            or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				            or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
 				            or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
 				            or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			            )
@@ -169,7 +173,9 @@ from
 			                )
 			        ) as x1 on student.id=x1.ref_student_id
 			        and (
-				        (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)--八上八下九上九下
+				        (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)--七上八上八上八下九上九下
+				        or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				        or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
 				        or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
 				        or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 				        or (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2)
@@ -182,6 +188,8 @@ from
             left outer join 
             (
 	            select student.id
+                    ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""服務學習時數_七上""
+			        ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN x1.hours ELSE 0 END) as ""服務學習時數_七下""
 			        ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""服務學習時數_八上""
 			        ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN x1.hours ELSE 0 END) as ""服務學習時數_八下""
 			        ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""服務學習時數_九上""

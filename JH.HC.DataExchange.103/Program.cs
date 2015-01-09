@@ -20,7 +20,7 @@ namespace JH.HS.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "103(竹苗區會考)學生匯入資料";
+            string ReportName = "104(竹苗區會考)學生匯入資料";
             string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
@@ -110,6 +110,10 @@ namespace JH.HS.DataExchange._103
                                 {
                                     switch (arGrade + "" + ar.Semester)
                                     {
+                                        case "11":
+                                        case "71":
+                                        case "12":
+                                        case "72":
                                         case "21":
                                         case "81":
                                         case "22":
@@ -233,6 +237,8 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("健康與體育");
                     dt.Columns.Add("藝術與人文");
                     dt.Columns.Add("綜合活動");
+                    dt.Columns.Add("國一上曠課紀錄");
+                    dt.Columns.Add("國一下曠課紀錄");
                     dt.Columns.Add("國二上曠課紀錄");
                     dt.Columns.Add("國二下曠課紀錄");
                     dt.Columns.Add("國三上曠課紀錄");
@@ -243,6 +249,8 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("大過支數");
                     dt.Columns.Add("小過支數");
                     dt.Columns.Add("警告支數");
+                    dt.Columns.Add("服務學習時數_七上");
+                    dt.Columns.Add("服務學習時數_七下");
                     dt.Columns.Add("服務學習時數_八上");
                     dt.Columns.Add("服務學習時數_八下");
                     dt.Columns.Add("服務學習時數_九上");
@@ -334,6 +342,8 @@ namespace JH.HS.DataExchange._103
                         row["扶助弱勢"] = null;//30
                         row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? "符合" : "不符合";//31
 
+                        row["國一上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "11") || dSGsA.ContainsKey(csr.ID + delimiter + "71") ? "有紀錄" : "無紀錄";//35
+                        row["國一下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "12") || dSGsA.ContainsKey(csr.ID + delimiter + "72") ? "有紀錄" : "無紀錄";//36
                         row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有紀錄" : "無紀錄";//35
                         row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有紀錄" : "無紀錄";//36
                         row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有紀錄" : "無紀錄";//37
@@ -349,9 +359,11 @@ namespace JH.HS.DataExchange._103
                             row["大過支數"] = dSGrade[csr.ID][7];//42
                             row["小過支數"] = dSGrade[csr.ID][8];//43
                             row["警告支數"] = dSGrade[csr.ID][9];//44
-                            row["服務學習時數_八上"] = dSGrade[csr.ID][10];//45
-                            row["服務學習時數_八下"] = dSGrade[csr.ID][11];//46
-                            row["服務學習時數_九上"] = dSGrade[csr.ID][12];//47
+                            row["服務學習時數_七上"] = dSGrade[csr.ID][10];//45
+                            row["服務學習時數_七下"] = dSGrade[csr.ID][11];//46
+                            row["服務學習時數_八上"] = dSGrade[csr.ID][12];//45
+                            row["服務學習時數_八下"] = dSGrade[csr.ID][13];//46
+                            row["服務學習時數_九上"] = dSGrade[csr.ID][14];//47
                         }
                         #endregion
                         dt.Rows.Add(row);
