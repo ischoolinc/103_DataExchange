@@ -20,7 +20,7 @@ namespace JH.TC.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "103(中投區會考)學生匯入資料";
+            string ReportName = "104(中投區會考)學生匯入資料";
             string UUID = "138B7160-058D-40CF-9494-6DF0E87357EB";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
@@ -106,6 +106,10 @@ namespace JH.TC.DataExchange._103
                                 {
                                     switch (arGrade + "" + ar.Semester)
                                     {
+                                        case "11":
+                                        case "71":
+                                        case "12":
+                                        case "72":
                                         case "21":
                                         case "81":
                                         case "22":
@@ -223,6 +227,7 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("通訊地址");
                     dt.Columns.Add("原住民是否含母語認證");
                     dt.Columns.Add("非中華民國身分證號");
+                    dt.Columns.Add("特殊生加分百分比", typeof(int));
                     dt.Columns.Add("就近入學", typeof(int));
                     dt.Columns.Add("偏遠地區", typeof(int));
                     dt.Columns.Add("健康與體育", typeof(int));
@@ -313,6 +318,14 @@ namespace JH.TC.DataExchange._103
                         row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
                         row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
                         row["非中華民國身分證號"] = ddSMaps.ContainsKey(csr.ID + delimiter + "非中華民國身分證號") ? "V" : null;//29
+
+                        //// 處理特殊生加分百分比
+                        // foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
+                             
+                        // }
+
+                        //row["特殊生加分百分比"] = "";
+
                         row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? 10 : 0;//30
                         row["偏遠地區"] = ddSMaps.ContainsKey(csr.ID + delimiter + "偏遠地區") ? 1 : 0;//31
 

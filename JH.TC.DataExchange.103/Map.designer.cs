@@ -136,7 +136,7 @@
             this.Controls.Add(this.dataGridView1);
             this.DoubleBuffered = true;
             this.Name = "Map";
-            this.Text = "103(竹苗區會考)學生匯入資料";
+            this.Text = "104(中投區會考)學生匯入資料";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

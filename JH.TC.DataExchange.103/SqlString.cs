@@ -62,7 +62,9 @@ from
             )shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id
 			    and (
-				    (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				    (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+                    or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				    or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
 				    or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
 				    or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			    )
@@ -197,7 +199,9 @@ left outer join
 			        )
 			) as x1 on student.id=x1.ref_student_id
 			    and (
-                    (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+                    (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+                    or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				    or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
 				    or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
 				    or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			    )
