@@ -348,17 +348,39 @@ namespace JH.HS.DataExchange._103
                         row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有紀錄" : "無紀錄";//36
                         row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有紀錄" : "無紀錄";//37
                         row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有紀錄" : "無紀錄";//38
+
+                        // 預設0
+                        row["大功支數"] = 0;
+                        row["小功支數"] = 0;
+                        row["嘉獎支數"] = 0;
+                        row["大過支數"] = 0;
+                        row["小過支數"] = 0;
+                        row["警告支數"] = 0;
+
                         if (dSGrade.ContainsKey(csr.ID))
                         {
                             row["健康與體育"] = dSGrade[csr.ID][1];//32
                             row["藝術與人文"] = dSGrade[csr.ID][2];//33
                             row["綜合活動"] = dSGrade[csr.ID][3];//34
-                            row["大功支數"] = dSGrade[csr.ID][4];//39
-                            row["小功支數"] = dSGrade[csr.ID][5];//40
-                            row["嘉獎支數"] = dSGrade[csr.ID][6];//41
-                            row["大過支數"] = dSGrade[csr.ID][7];//42
-                            row["小過支數"] = dSGrade[csr.ID][8];//43
-                            row["警告支數"] = dSGrade[csr.ID][9];//44
+
+                            if (dSGrade[csr.ID][4] != null && dSGrade[csr.ID][4].ToString()!="")
+                                row["大功支數"] = dSGrade[csr.ID][4];//39
+
+                            if (dSGrade[csr.ID][5] != null && dSGrade[csr.ID][5].ToString() != "")
+                                row["小功支數"] = dSGrade[csr.ID][5];//40
+
+                            if (dSGrade[csr.ID][6] != null && dSGrade[csr.ID][6].ToString() != "")
+                                row["嘉獎支數"] = dSGrade[csr.ID][6];//41
+
+                            if (dSGrade[csr.ID][7] != null && dSGrade[csr.ID][7].ToString() != "")
+                                row["大過支數"] = dSGrade[csr.ID][7];//42
+
+                            if (dSGrade[csr.ID][8] != null && dSGrade[csr.ID][8].ToString() != "")
+                                row["小過支數"] = dSGrade[csr.ID][8];//43
+
+                            if (dSGrade[csr.ID][9] != null && dSGrade[csr.ID][9].ToString() != "")
+                                row["警告支數"] = dSGrade[csr.ID][9];//44
+
                             row["服務學習時數_七上"] = dSGrade[csr.ID][10];//45
                             row["服務學習時數_七下"] = dSGrade[csr.ID][11];//46
                             row["服務學習時數_八上"] = dSGrade[csr.ID][12];//45
