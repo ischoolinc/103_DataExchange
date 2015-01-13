@@ -20,7 +20,7 @@ namespace JH.TC.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "104(中投區會考)學生匯入資料";
+            string ReportName = "104(中投區免試)學生匯入資料";
             string UUID = "138B7160-058D-40CF-9494-6DF0E87357EB";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
