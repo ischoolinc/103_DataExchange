@@ -167,7 +167,8 @@ namespace JH.HS.DataExchange._103
                     //}
                     #endregion
                     #region 在Sql中處理的:健康與體育,藝術與人文,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
-                    tmp = _Q.Select(SqlString.Query1);
+                    string strqq = SqlString.Query1;
+                    tmp = _Q.Select(strqq);
                     Dictionary<string, DataRow> dSGrade = new Dictionary<string, DataRow>();
                     foreach (DataRow row in tmp.Rows)
                     {
