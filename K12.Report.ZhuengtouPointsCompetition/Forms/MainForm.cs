@@ -528,7 +528,7 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
             // 取得三下的學年度學期
             ValueObj.SchoolYearSemester specilSchoolYear = gradeMap[6];
             // 截止時間 103/5/9
-            DateTime deadTime = new DateTime(2014, 5, 9);
+            DateTime deadTime = new DateTime(2015, 5, 9);
 
             if(servicesObj != null)
             {

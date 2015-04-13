@@ -26,7 +26,9 @@ namespace K12.Report.ZhuengtouPointsCompetition
         public static decimal[] ItemMaxPointsList = { 3, 12, 5, 6, 4 };
         
         // 大項目需要算幾個學期, 6: 都算, 5:一上~三上, 3:二上~三上
-        public static int[] ItemNeedSemester = { 6, 3, 6, 3, 5 };
+        public static int[] ItemNeedSemester = { 6, 5, 6, 5, 5 }; // 104 學年度
+        //public static int[] ItemNeedSemester = { 6, 3, 6, 3, 5 };  103學年度
+
 
         // 大項目下的子項目
         public static string[][] DetailItemNameList = {
