@@ -26,10 +26,17 @@ namespace K12.Report.ZhuengtouPointsCompetition.ValueObj
 
         public List<Data.DemeritRecord> GetDemeritsBySchoolYear(SchoolYearSemester schoolYearSemester)
         {
-            if (DemeritsBySchoolYear.ContainsKey(schoolYearSemester))
-                return DemeritsBySchoolYear[schoolYearSemester];
-            else
-                return new List<Data.DemeritRecord>();
+            List<Data.DemeritRecord> retVal = new List<Data.DemeritRecord>();
+
+            foreach (SchoolYearSemester ss in DemeritsBySchoolYear.Keys)
+            {
+                if (ss.SchoolYear == schoolYearSemester.SchoolYear && ss.Semester == schoolYearSemester.Semester)
+                    retVal = DemeritsBySchoolYear[ss];
+            }
+
+
+            return retVal;
+                
         }
     }
 }

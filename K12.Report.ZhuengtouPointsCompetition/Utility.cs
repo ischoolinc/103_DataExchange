@@ -244,5 +244,54 @@ namespace K12.Report.ZhuengtouPointsCompetition
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// 取得學生獎懲非明細資料
+        /// </summary>
+        /// <param name="StudentIDList"></param>
+        /// <param name="semesterHistoryListDic"></param>
+        public static Dictionary<string,List<K12.BusinessLogic.AutoSummaryRecord>> GetStudentAutoSummary(List<string> StudentIDList, Dictionary<string, JHSchool.Data.JHSemesterHistoryRecord> semesterHistoryListDic)
+        {
+            Dictionary<string, List<K12.BusinessLogic.AutoSummaryRecord>> retVal = new Dictionary<string, List<BusinessLogic.AutoSummaryRecord>>();
+
+            // 得取所有學期歷程
+            List<K12.Data.SchoolYearSemester> SchoolYearSemesterList = new List<K12.Data.SchoolYearSemester>();
+            List<string> chk1 = new List<string>();
+            foreach (string key in semesterHistoryListDic.Keys)
+            {
+                foreach (Data.SemesterHistoryItem itm in semesterHistoryListDic[key].SemesterHistoryItems)
+                {
+                    string str = itm.SchoolYear.ToString() + "_" + itm.Semester.ToString();
+                    if (!chk1.Contains(str))
+                    {
+                        K12.Data.SchoolYearSemester sys = new Data.SchoolYearSemester();
+                        sys.SchoolYear = itm.SchoolYear;
+                        sys.Semester = itm.Semester;
+                        SchoolYearSemesterList.Add(sys);
+                        chk1.Add(str);
+                    }
+                }
+            }
+
+            List<K12.BusinessLogic.AutoSummaryRecord> recList = K12.BusinessLogic.AutoSummary.Select(StudentIDList, SchoolYearSemesterList);
+
+            foreach (K12.BusinessLogic.AutoSummaryRecord rec in recList)
+            {
+                if (rec.InitialSummary != null)
+                {
+                    if (!retVal.ContainsKey(rec.RefStudentID))
+                        retVal.Add(rec.RefStudentID, new List<BusinessLogic.AutoSummaryRecord>());
+
+                    retVal[rec.RefStudentID].Add(rec);
+                }
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
+        /// 學生獎懲非明細資料 暫存
+        /// </summary>
+        public static Dictionary<string, List<K12.BusinessLogic.AutoSummaryRecord>> tmpStudentAutoSummaryDict = new Dictionary<string, List<BusinessLogic.AutoSummaryRecord>>();
     }
 }

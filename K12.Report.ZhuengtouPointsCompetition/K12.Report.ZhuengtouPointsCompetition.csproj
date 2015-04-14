@@ -85,6 +85,11 @@
       <HintPath>Library\JHSchool.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="K12.BusinessLogic, Version=1.4.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\K12.BusinessLogic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="K12.Data, Version=2.0.0.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\K12.Data.dll</HintPath>
@@ -185,6 +190,9 @@
     <Content Include="Library\JHSchool.Data.dll" />
     <Content Include="Library\JHSchool.Data.pdb" />
     <Content Include="Library\JHSchool.Data.xml" />
+    <Content Include="Library\K12.BusinessLogic.dll" />
+    <Content Include="Library\K12.BusinessLogic.pdb" />
+    <Content Include="Library\K12.BusinessLogic.xml" />
     <Content Include="Library\K12.Data.dll" />
     <Content Include="Library\K12.Data.pdb" />
     <Content Include="Library\K12.Data.xml" />

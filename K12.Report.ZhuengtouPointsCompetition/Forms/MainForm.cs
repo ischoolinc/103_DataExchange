@@ -126,6 +126,10 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
                 demeritListDic[rec.RefStudentID].AddDemerit(rec);
             }
 
+            // 取得非明細資料
+            Utility.tmpStudentAutoSummaryDict= Utility.GetStudentAutoSummary(_StudentIdList,semesterHistoryListDic);
+
+
             _BGW.ReportProgress(30);
 
             // 取得獎歷紀錄
@@ -171,7 +175,7 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
 
                 // 計算獎勵紀錄
                 totalPoints += Cal_Merit(studentObj, gradeMap,
-                                (meritListDic.ContainsKey(studentObj.StudentId) ? meritListDic[studentObj.StudentId] : null));
+                                (meritListDic.ContainsKey(studentObj.StudentId) ? meritListDic[studentObj.StudentId] : null)); 
                 
                 // 回存學生的總分數
                 studentObj.TotalPoints = totalPoints;
@@ -631,16 +635,16 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
 
             #endregion
 
-            if (noDemeritPoints > 0 )
-            {
-                // 回存此項目顯示的內容
-                detailItem.Value = "無記過紀錄!";
+            //if (noDemeritPoints > 0 )
+            //{
+            //    // 回存此項目顯示的內容
+            //    detailItem.Value = "無記過紀錄!";
 
-                studentObj.ItemList[itemName] = noDemeritPoints;
+            //    studentObj.ItemList[itemName] = noDemeritPoints;
                 
-                // 不處理無小過以上記錄
-                return noDemeritPoints;
-            }
+            //    // 不處理無小過以上記錄
+            //    return noDemeritPoints;
+            //}
 
             #region 處理無小過以上記錄
 
@@ -657,7 +661,11 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
             {
                 if (schoolYear == null) continue;
 
-                List<Data.DemeritRecord> demeritList = demeritObj.GetDemeritsBySchoolYear(schoolYear);
+                List<Data.DemeritRecord> demeritList;
+
+                if (demeritObj != null)
+                    demeritList = demeritObj.GetDemeritsBySchoolYear(schoolYear);
+                else demeritList = new List<Data.DemeritRecord>();
 
                 foreach(Data.DemeritRecord rec in demeritList)
                 {
@@ -689,6 +697,37 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
 
             // 回存此項目顯示的內容
             detailItem.Value = "大過:" + Demerit[0] + ", 小過:" + Demerit[1] + ", 警告:" + Demerit[2];
+            
+            // 取得非明細
+            int calSaA = 0, calSaB = 0, calSaC = 0;
+            // 取得非明細
+            if (Utility.tmpStudentAutoSummaryDict.ContainsKey(studentObj.StudentId))
+            {
+                foreach (K12.BusinessLogic.AutoSummaryRecord rec1 in Utility.tmpStudentAutoSummaryDict[studentObj.StudentId])
+                {
+                    try
+                    {
+                        calSaA += rec1.InitialDemeritA;
+                        calSaB += rec1.InitialDemeritB;
+                        calSaC += rec1.InitialDemeritC;
+                    }
+                    catch (Exception ex) { }
+                }
+            }
+
+            // 無記過
+            if ((calSaA + calSaB + calSaC) == 0 && ItemTotalPoints == 6)
+                ItemTotalPoints = 6;
+
+            // 有記過
+            if ((calSaA + calSaB + calSaC) > 0)
+                ItemTotalPoints = 0;
+
+            // 無小過以上
+            if ((calSaA + calSaB) == 0)
+                ItemTotalPoints = 3;
+            
+            
             // 回存此項目的積分
             detailItem.Points = ItemTotalPoints;
             #endregion
@@ -765,6 +804,30 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
 
             // 假如超過上限, 就以上限為主
             ItemTotalPoints = (ItemTotalPoints > itemCondition.MaxItemPoints) ? itemCondition.MaxItemPoints : ItemTotalPoints;
+
+            // 處理非明細
+            int calSbA = 0, calSbB = 0, calSbC = 0;
+            // 取得非明細
+            if (Utility.tmpStudentAutoSummaryDict.ContainsKey(studentObj.StudentId))
+            {
+                foreach (K12.BusinessLogic.AutoSummaryRecord rec1 in Utility.tmpStudentAutoSummaryDict[studentObj.StudentId])
+                {
+                    try
+                    {
+                        calSbA += rec1.InitialMeritA;
+                        calSbB += rec1.InitialMeritB;
+                        calSbC += rec1.InitialMeritC;
+                    }
+                    catch (Exception ex) { }                   
+                }
+            }
+
+            ItemTotalPoints += calSbA * 3 + calSbB * 1 + calSbB + calSbC * (decimal)0.5;
+
+            // 最高4 分
+            if (ItemTotalPoints > 4)
+                ItemTotalPoints = 4;			
+
 
             // 此學生在這個項目的積分
             studentObj.ItemList[itemName] = ItemTotalPoints;
