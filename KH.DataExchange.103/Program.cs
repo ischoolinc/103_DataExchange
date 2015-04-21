@@ -147,9 +147,9 @@ namespace KH.DataExchange._103
                         }
                     }
                     bkw.ReportProgress(80);
-                    CompletedXls("103高雄區多元成績交換資料格式", dt_tmp, new Workbook());
+                    CompletedXls("高雄區多元成績交換資料格式", dt_tmp, new Workbook());
                     dt_tmp = _Q.Select(SqlString.IncentiveRecord);
-                    CompletedXls("103高雄區多元成績-獎懲記錄交換資料格式", dt_tmp, new Workbook());
+                    CompletedXls("高雄區多元成績-獎懲記錄交換資料格式", dt_tmp, new Workbook());
                 }
                 catch (Exception exc)
                 {
