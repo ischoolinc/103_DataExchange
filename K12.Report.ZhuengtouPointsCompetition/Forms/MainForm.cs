@@ -713,19 +713,19 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
                     }
                     catch (Exception ex) { }
                 }
+
+                // 無記過
+                if ((calSaA + calSaB + calSaC) == 0 && (ItemTotalPoints == 6))
+                    ItemTotalPoints = 6;
+
+                // 有記過
+                if ((calSaA + calSaB)>0 && (calSaC > MaxDemeritCount))
+                    ItemTotalPoints = 0;
+
+                // 無小過以上
+                if ((calSaA + calSaB) == 0 && (calSaC <MaxDemeritCount))
+                    ItemTotalPoints = 3;
             }
-
-            // 無記過
-            if ((calSaA + calSaB + calSaC) == 0 && ItemTotalPoints == 6)
-                ItemTotalPoints = 6;
-
-            // 有記過
-            if ((calSaA + calSaB + calSaC) > 0)
-                ItemTotalPoints = 0;
-
-            // 無小過以上
-            if ((calSaA + calSaB) == 0)
-                ItemTotalPoints = 3;
             
             
             // 回存此項目的積分
@@ -818,15 +818,15 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
                         calSbB += rec1.InitialMeritB;
                         calSbC += rec1.InitialMeritC;
                     }
-                    catch (Exception ex) { }                   
+                    catch (Exception ex) { }
                 }
+
+                ItemTotalPoints += calSbA * 3 + calSbB * 1 + calSbB + calSbC * (decimal)0.5;
+
+                // 最高4 分
+                if (ItemTotalPoints > 4)
+                    ItemTotalPoints = 4;
             }
-
-            ItemTotalPoints += calSbA * 3 + calSbB * 1 + calSbB + calSbC * (decimal)0.5;
-
-            // 最高4 分
-            if (ItemTotalPoints > 4)
-                ItemTotalPoints = 4;			
 
 
             // 此學生在這個項目的積分
