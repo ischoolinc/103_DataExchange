@@ -603,10 +603,11 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
             // 大項目名稱
             string itemName = itemCondition.ItemName;
             decimal ItemTotalPoints = 0;
+            string detailItemName="";
 
             #region 處理無記過紀錄
             // 無記過紀錄名稱
-            string detailItemName = Global.DetailItemNameList[ItemIndex][0];
+            detailItemName = Global.DetailItemNameList[ItemIndex][0];
             // 無記過紀錄積分
             decimal noDemeritPoints = detailCondition.DetailItemListDic[detailItemName];
 
@@ -692,12 +693,21 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
                     ItemTotalPoints = demeritPoints;
             }
 
+            // 完全沒記過6分
+            if (Demerit[0] == 0 && Demerit[1] == 0 && Demerit[2] == 0)
+                ItemTotalPoints = 6;
+
             // 取得detail item in student
             detailItem = studentObj.DetailItemList[itemName][detailItemName];
 
             // 回存此項目顯示的內容
             detailItem.Value = "大過:" + Demerit[0] + ", 小過:" + Demerit[1] + ", 警告:" + Demerit[2];
-            
+           
+            // 回存此項目的積分
+            detailItem.Points = ItemTotalPoints;
+            #endregion
+
+            #region 處理非明細
             // 取得非明細
             int calSaA = 0, calSaB = 0, calSaC = 0;
             // 取得非明細
@@ -719,17 +729,13 @@ namespace K12.Report.ZhuengtouPointsCompetition.Forms
                     ItemTotalPoints = 6;
 
                 // 有記過
-                if ((calSaA + calSaB)>0 && (calSaC > MaxDemeritCount))
+                if ((calSaA + calSaB) > 0 && (calSaC > MaxDemeritCount))
                     ItemTotalPoints = 0;
 
                 // 無小過以上
-                if ((calSaA + calSaB) == 0 && (calSaC <MaxDemeritCount))
+                if ((calSaA + calSaB) == 0 && (calSaC < MaxDemeritCount))
                     ItemTotalPoints = 3;
             }
-            
-            
-            // 回存此項目的積分
-            detailItem.Points = ItemTotalPoints;
             #endregion
 
             // 此學生在這個項目的積分
