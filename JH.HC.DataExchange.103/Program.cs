@@ -179,13 +179,47 @@ namespace JH.HS.DataExchange._103
                     List<StudentTagRecord> strl = K12.Data.StudentTag.SelectByStudentIDs(sids);
                     List<MapRecord> mrl = _A.Select<MapRecord>();
                     Dictionary<string, List<string>> dlMaps = new Dictionary<string, List<string>>();
+                    Dictionary<string, List<string>> studNameTag = new Dictionary<string, List<string>>();
+                    List<TagConfigRecord> strRec = K12.Data.TagConfig.SelectByCategory(TagCategory.Student);
+                    foreach (var item in strRec)
+                    {
+                        if (item.Prefix == "")
+                        {
+                            if (!studNameTag.ContainsKey(item.Name))
+                                studNameTag.Add(item.Name, new List<string>());
+
+                            studNameTag[item.Name].Add(item.Name);                     
+                        }
+                        else
+                        {
+                            string pNmae = "[" + item.Prefix + "]";
+                            string kName = item.Prefix + ":" + item.Name;
+
+                            if (!studNameTag.ContainsKey(pNmae))
+                                studNameTag.Add(pNmae, new List<string>());
+
+                            studNameTag[pNmae].Add(kName);
+
+                        }
+                    }
+
                     foreach (MapRecord mr in mrl)
                     {
                         if (Map.SpecialList.Contains(mr.key))
                         {
-                            if (!dlMaps.ContainsKey(mr.value))
-                                dlMaps.Add(mr.value, new List<string>());
-                            dlMaps[mr.value].Add(mr.key);
+                            // 解析類別對照
+                            foreach (string sKey in studNameTag.Keys)
+                            {
+                                if (sKey == mr.value)
+                                {
+                                    foreach(string sName in studNameTag[sKey])
+                                    {
+                                        if (!dlMaps.ContainsKey(sName))
+                                            dlMaps.Add(sName, new List<string>());
+                                        dlMaps[sName].Add(mr.key);
+                                    }                                    
+                                }
+                            }
                         }
                     }
                     Dictionary<string, int> ddSMaps = new Dictionary<string, int>();

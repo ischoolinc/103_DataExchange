@@ -25,16 +25,43 @@ namespace JH.HS.DataExchange._103
             _TagConfigRecords = K12.Data.TagConfig.SelectByCategory(TagCategory.Student);
             List<string> prefix = new List<string>();
             List<string> tag = new List<string>();
+            List<string> StudTagNameList = new List<string>();
+            Dictionary<string, string> oldDataTag = new Dictionary<string, string>();
 
             StudentTag.Items.Clear();
             StudentTag.Items.Add("");
             foreach (var item in _TagConfigRecords)
             {
-                if (item.Prefix != "")
-                    StudentTag.Items.Add(item.Prefix + ":" + item.Name);
+                //if (item.Prefix != "")
+                //    StudentTag.Items.Add(item.Prefix + ":" + item.Name);
+                //else
+                //    StudentTag.Items.Add(item.Name);
+                
+                if (item.Prefix=="")
+                {
+                    if(!StudTagNameList.Contains(item.Name))
+                        StudTagNameList.Add(item.Name);
+
+                    if (!oldDataTag.ContainsKey(item.Name))
+                        oldDataTag.Add(item.Name, item.Name);
+                }
                 else
-                    StudentTag.Items.Add(item.Name);
+                {
+                    string pNmae = "[" + item.Prefix + "]";
+                    string kName = item.Prefix + ":" + item.Name;
+                    if (!StudTagNameList.Contains(pNmae))
+                        StudTagNameList.Add(pNmae);
+
+                    if (!oldDataTag.ContainsKey(kName))
+                        oldDataTag.Add(kName, pNmae);
+                }              
             }
+
+            // 排序並加入
+            StudTagNameList.Sort();
+            foreach (string name in StudTagNameList)
+                StudentTag.Items.Add(name);
+
             _MapRecords = _AccessHelper.Select<MapRecord>();
             DataGridViewRow row;
             int index;
@@ -50,15 +77,21 @@ namespace JH.HS.DataExchange._103
                     {
                         if (index == 1)
                         {
-                            if (StudentTag.Items.Contains(item.value))
+                            //if (StudentTag.Items.Contains(item.value))
+                            //    row.Cells[1].Value = item.value;
+                            //else
+                            //    row.Cells[1].Value = "";
+                            // 主要在做舊資料轉換
+                            string iValue = "";
+                            if (oldDataTag.ContainsKey(item.value))
+                                iValue = oldDataTag[item.value];
+
+                            if (iValue == "")
                                 row.Cells[1].Value = item.value;
                             else
-                                row.Cells[1].Value = "";
-
-                            if (StudentTag.Items.Contains(item.note))
-                                row.Cells[2].Value = item.note;
-                            else
-                                row.Cells[2].Value = "";
+                                row.Cells[1].Value = iValue;
+                         
+                            row.Cells[2].Value = item.note;                         
                         }
                         index++;
                     }
