@@ -148,6 +148,7 @@
             this.DoubleBuffered = true;
             this.Name = "Map";
             this.Text = "104(竹苗區免試)學生匯入資料";
+            this.Load += new System.EventHandler(this.Map_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

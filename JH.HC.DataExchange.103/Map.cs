@@ -25,8 +25,7 @@ namespace JH.HS.DataExchange._103
             _TagConfigRecords = K12.Data.TagConfig.SelectByCategory(TagCategory.Student);
             List<string> prefix = new List<string>();
             List<string> tag = new List<string>();
-            List<string> StudTagNameList = new List<string>();
-            Dictionary<string, string> oldDataTag = new Dictionary<string, string>();
+            List<string> StudTagNameList = new List<string>();            
 
             StudentTag.Items.Clear();
             StudentTag.Items.Add("");
@@ -41,9 +40,6 @@ namespace JH.HS.DataExchange._103
                 {
                     if(!StudTagNameList.Contains(item.Name))
                         StudTagNameList.Add(item.Name);
-
-                    if (!oldDataTag.ContainsKey(item.Name))
-                        oldDataTag.Add(item.Name, item.Name);
                 }
                 else
                 {
@@ -51,9 +47,8 @@ namespace JH.HS.DataExchange._103
                     string kName = item.Prefix + ":" + item.Name;
                     if (!StudTagNameList.Contains(pNmae))
                         StudTagNameList.Add(pNmae);
-
-                    if (!oldDataTag.ContainsKey(kName))
-                        oldDataTag.Add(kName, pNmae);
+                    // 原本子項目也加入
+                    StudTagNameList.Add(kName);
                 }              
             }
 
@@ -77,19 +72,10 @@ namespace JH.HS.DataExchange._103
                     {
                         if (index == 1)
                         {
-                            //if (StudentTag.Items.Contains(item.value))
-                            //    row.Cells[1].Value = item.value;
-                            //else
-                            //    row.Cells[1].Value = "";
-                            // 主要在做舊資料轉換
-                            string iValue = "";
-                            if (oldDataTag.ContainsKey(item.value))
-                                iValue = oldDataTag[item.value];
-
-                            if (iValue == "")
+                            if (StudentTag.Items.Contains(item.value))
                                 row.Cells[1].Value = item.value;
                             else
-                                row.Cells[1].Value = iValue;
+                                row.Cells[1].Value = "";                          
                          
                             row.Cells[2].Value = item.note;                         
                         }
@@ -132,6 +118,11 @@ namespace JH.HS.DataExchange._103
         }
 
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
+
+        private void Map_Load(object sender, EventArgs e)
         {
 
         }
