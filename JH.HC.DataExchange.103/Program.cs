@@ -48,7 +48,7 @@ namespace JH.HS.DataExchange._103
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     AccessHelper _A = new AccessHelper();
-                    DataTable dt = new DataTable(), tmp;
+                    DataTable dt = new DataTable(), tmp;                    
                     #region 取得及整理資料
                     tmp = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (3, 9)");
                     List<string> sids = new List<string>();
@@ -167,10 +167,49 @@ namespace JH.HS.DataExchange._103
                     //}
                     #endregion
                     #region 在Sql中處理的:健康與體育,藝術與人文,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
-                    string strqq = SqlString.Query1;
-                    tmp = _Q.Select(strqq);
+
+                    // 分批處理，因為一次會認成德高中國中部爆
+                    List<string> colNameList = new List<string>();
+                    colNameList.Add("id");
+                    colNameList.Add("健康與體育");
+                    colNameList.Add("藝術與人文");
+                    colNameList.Add("綜合活動");
+                    colNameList.Add("大功支數");
+                    colNameList.Add("小功支數");
+                    colNameList.Add("嘉獎支數");
+                    colNameList.Add("大過支數");
+                    colNameList.Add("小過支數");
+                    colNameList.Add("警告支數");
+                    colNameList.Add("服務學習時數_七上");
+                    colNameList.Add("服務學習時數_七下");
+                    colNameList.Add("服務學習時數_八上");
+                    colNameList.Add("服務學習時數_八下");
+                    colNameList.Add("服務學習時數_九上");
+
+                    DataTable dtTmp = new DataTable();
+                    foreach (string name in colNameList)
+                        dtTmp.Columns.Add(name);
+
+                    try
+                    {
+                        foreach (string sid in sids)
+                        { 
+                            string strqq = SqlString.Query1 + " and student.id="+sid;
+                            DataTable dtqq = _Q.Select(strqq);
+                            if (dtqq.Rows.Count > 0)
+                                dtTmp.ImportRow(dtqq.Rows[0]);
+                        }
+                  
+                        
+                    }
+                    catch (Exception ex)
+                    { 
+                    
+                    }                   
+            
                     Dictionary<string, DataRow> dSGrade = new Dictionary<string, DataRow>();
-                    foreach (DataRow row in tmp.Rows)
+                    
+                    foreach (DataRow row in dtTmp.Rows)
                     {
                         dSGrade.Add("" + row[0], row);
                     }
