@@ -20,7 +20,7 @@ namespace JH.HS.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "104(竹苗區免試)學生匯入資料";
+            string ReportName = "105(竹苗區免試)學生匯入資料";
             string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
@@ -294,6 +294,7 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("座號");
                     dt.Columns.Add("學生姓名");
                     dt.Columns.Add("身分證統一編號");
+                    dt.Columns.Add("非中華民國身分證號");
                     dt.Columns.Add("性別");
                     dt.Columns.Add("出生年(民國年)");
                     dt.Columns.Add("出生月");
@@ -301,7 +302,7 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("畢業學校代碼");
                     dt.Columns.Add("畢業年(民國年)");
                     dt.Columns.Add("畢肄業");
-                    dt.Columns.Add("學生身分");
+                    dt.Columns.Add("學生報名身分");
                     dt.Columns.Add("身心障礙");
                     dt.Columns.Add("就學區");
                     dt.Columns.Add("低收入戶");
@@ -310,12 +311,11 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("資料授權");
                     dt.Columns.Add("家長姓名");
                     dt.Columns.Add("市內電話");
+                    dt.Columns.Add("市內電話分機");
                     dt.Columns.Add("行動電話");
                     dt.Columns.Add("郵遞區號");
                     dt.Columns.Add("通訊地址");
-                    dt.Columns.Add("原住民是否含母語認證");
-                    dt.Columns.Add("非中華民國身分證號");
-                    dt.Columns.Add("特殊生加分百分比");
+                    dt.Columns.Add("偏遠鄉鎮國中生");
                     dt.Columns.Add("扶助弱勢");
                     dt.Columns.Add("就近入學");
                     dt.Columns.Add("健康與體育");
@@ -352,23 +352,35 @@ namespace JH.HS.DataExchange._103
                         row["座號"] = csr.SeatNo;//6
                         row["學生姓名"] = csr.Name;//7
                         row["身分證統一編號"] = csr.IDNumber;//8
-                        row["性別"] = csr.Gender;//9
-                        row["出生年(民國年)"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Year - 1911) : "";//10
-                        row["出生月"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Month) : "";//11
-                        row["出生日"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Day) : "";//12
-                        row["畢業學校代碼"] = School.Code;//13
-                        row["畢業年(民國年)"] = "";//14
-                        row["畢肄業"] = "";//15
+                        row["非中華民國身分證號"] = "";//9
+                        row["性別"] = csr.Gender;//10
+                        row["出生年(民國年)"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Year - 1911) : "";//11
+                        row["出生月"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Month) : "";//12
+                        row["出生日"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Day) : "";//13
+                        row["畢業學校代碼"] = School.Code;//14
+                        row["畢業年(民國年)"] = "";//15
+                        row["畢肄業"] = "";//16
                         string strtmp = "";
-                        foreach (KeyValuePair<string, int> item in new Dictionary<string, int>(){
+                        foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                                                                 //{"一般生",0},
-                                                                {"原住民",1},
-                                                                {"派外人員子女",2},
-                                                                {"蒙藏生",3},
-                                                                {"回國僑生",4},
-                                                                {"港澳生",5},
-                                                                {"退伍軍人",6},
-                                                                {"境外優秀科學技術人才子女",7}})
+                                                                {"一般生","0"},
+{"身障生","1"},
+{"原住民(有認證)","2"},
+{"原住民(無認證)","3"},
+{"蒙藏生","4"},
+{"外派子女25%","5"},
+{"外派子女15%","6"},
+{"外派子女10%","7"},
+{"退伍軍人25%","8"},
+{"退伍軍人20%","9"},
+{"退伍軍人15%","A"},
+{"退伍軍人10%","B"},
+{"退伍軍人5%","C"},
+{"退伍軍人3%","D"},
+{"優秀子女25%","E"},
+{"優秀子女15%","F"},
+{"優秀子女10%","G"},
+{"僑生","H"}})
                         {
                             if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
                             {    //row["學生身分"] = ("" + row["身心障礙"]) + item.Value;//16
@@ -376,21 +388,23 @@ namespace JH.HS.DataExchange._103
                                 break;
                             }
                         }
-                        row["學生身分"] = (strtmp == "" ? "0" : strtmp);
+                        row["學生報名身分"] = (strtmp == "" ? "0" : strtmp);//17
                         strtmp = "";
                         foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                                                                 //{"非身心障礙考生",0},
-                                                                {"智能障礙","1"},
-                                                                {"視覺障礙","2"},
-                                                                {"聽覺障礙","3"},
-                                                                {"語言障礙","4"},
-                                                                {"肢體障礙","5"},
-                                                                {"身體病弱","6"},
-                                                                {"情緒行為障礙","7"},
-                                                                {"學習障礙","8"},
-                                                                {"多重障礙","9"},
-                                                                {"自閉症","A"},
-                                                                {"其他障礙","B"}})
+                                                              {"智能障礙","1"},
+{"視覺障礙","2"},
+{"聽覺障礙","3"},
+{"語言障礙","4"},
+{"肢體障礙","5"},
+{"腦性麻痺","6"},
+{"身體病弱","7"},
+{"情緒行為障礙","8"},
+{"學習障礙","9"},
+{"多重障礙","A"},
+{"自閉症","B"},
+{"發展遲緩","C"},
+{"其他障礙","D"}})
                         {
                             if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
                             {
@@ -399,18 +413,19 @@ namespace JH.HS.DataExchange._103
                                 break;
                             }
                         }
-                        row["身心障礙"] = string.IsNullOrEmpty(strtmp) ? "0" : strtmp;
+                        row["身心障礙"] = string.IsNullOrEmpty(strtmp) ? "0" : strtmp;//18
 
-                        row["就學區"] = "";//18
-                        row["低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "低收入戶") ? "1" : "0";//19
-                        row["中低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "中低收入戶") ? "1" : "0";//20
-                        row["失業勞工子女"] = ddSMaps.ContainsKey(csr.ID + delimiter + "失業勞工子女") ? "1" : "0";//21
+                        row["就學區"] = "";//19
+                        row["低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "低收入戶") ? "1" : "0";//20
+                        row["中低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "中低收入戶") ? "1" : "0";//21
+                        row["失業勞工子女"] = ddSMaps.ContainsKey(csr.ID + delimiter + "失業勞工子女") ? "1" : "0";//22
 
-                        row["資料授權"] = "";//22
-                        row["家長姓名"] = csr.CustodianName;//23
-                        row["市內電話"] = csr.ContactPhone != null ? csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//24
-                        row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
-                        row["郵遞區號"] = csr.MallingAddressZipCode;//26
+                        row["資料授權"] = "";//23
+                        row["家長姓名"] = csr.CustodianName;//24
+                        row["市內電話"] = csr.ContactPhone != null ? csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
+                        row["市內電話分機"] = ""; //26
+                        row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//27
+                        row["郵遞區號"] = csr.MallingAddressZipCode;//28
 
                         string address = "";
                         if (!string.IsNullOrWhiteSpace(csr.MallingAddress))
@@ -418,14 +433,15 @@ namespace JH.HS.DataExchange._103
                         else if (!string.IsNullOrWhiteSpace(csr.PermanentAddress))
                             address = csr.PermanentAddress.Replace("[]", "");
 
-                        row["通訊地址"] = address;//27
+                        row["通訊地址"] = address;//29
                         //row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
-                        row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
-                        row["非中華民國身分證號"] = "";//29
-                        row["特殊生加分百分比"] = "";//29
-                        row["扶助弱勢"] = null;//30
-                        row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? "符合" : "不符合";//31
+                        //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
 
+                        row["偏遠鄉鎮國中生"] = ddSMaps.ContainsKey(csr.ID + delimiter + "偏遠鄉鎮國中生") ? 1 : 0; ; //30
+                        //row["特殊生加分百分比"] = "";//29
+                        row["扶助弱勢"] = ddSMaps.ContainsKey(csr.ID + delimiter + "扶助弱勢") ? 5 : 0;// null;//31
+                        row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? 5 : 0;//32
+                        
                         row["國一上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "11") || dSGsA.ContainsKey(csr.ID + delimiter + "71") ? "有紀錄" : "無紀錄";//35
                         row["國一下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "12") || dSGsA.ContainsKey(csr.ID + delimiter + "72") ? "有紀錄" : "無紀錄";//36
                         row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有紀錄" : "無紀錄";//35
