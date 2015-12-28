@@ -349,7 +349,7 @@ namespace JH.HS.DataExchange._103
                         row["序號"] = seq;//3
                         row["學號"] = csr.StudentNumber;//4
                         row["班級"] = csr.ClassName;//5
-                        row["座號"] = csr.SeatNo;//6
+                        row["座號"] = csr.SeatNo.HasValue?string.Format("{0:00}",csr.SeatNo.Value):"";//6
                         row["學生姓名"] = csr.Name;//7
                         row["身分證統一編號"] = csr.IDNumber;//8
                         row["非中華民國身分證號"] = "";//9
