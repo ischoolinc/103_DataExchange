@@ -442,12 +442,20 @@ namespace JH.HS.DataExchange._103
                         row["扶助弱勢"] = ddSMaps.ContainsKey(csr.ID + delimiter + "扶助弱勢") ? 5 : 0;// null;//31
                         row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? 5 : 0;//32
                         
-                        row["國一上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "11") || dSGsA.ContainsKey(csr.ID + delimiter + "71") ? "有紀錄" : "無紀錄";//35
-                        row["國一下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "12") || dSGsA.ContainsKey(csr.ID + delimiter + "72") ? "有紀錄" : "無紀錄";//36
-                        row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有紀錄" : "無紀錄";//35
-                        row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有紀錄" : "無紀錄";//36
-                        row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有紀錄" : "無紀錄";//37
-                        row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有紀錄" : "無紀錄";//38
+                        //row["國一上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "11") || dSGsA.ContainsKey(csr.ID + delimiter + "71") ? "有紀錄" : "無紀錄";//35
+                        //row["國一下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "12") || dSGsA.ContainsKey(csr.ID + delimiter + "72") ? "有紀錄" : "無紀錄";//36
+                        //row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有紀錄" : "無紀錄";//35
+                        //row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有紀錄" : "無紀錄";//36
+                        //row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有紀錄" : "無紀錄";//37
+                        //row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有紀錄" : "無紀錄";//38
+
+                        row["國一上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "11") || dSGsA.ContainsKey(csr.ID + delimiter + "71") ? 0 : 1;//35
+                        row["國一下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "12") || dSGsA.ContainsKey(csr.ID + delimiter + "72") ? 0 : 1;//36
+                        row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? 0 : 1;//35
+                        row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? 0 : 1;//36
+                        row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? 0 : 1;//37
+                        row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? 0 : 1;//38
+
 
                         // 預設0
                         row["大功支數"] = 0;
