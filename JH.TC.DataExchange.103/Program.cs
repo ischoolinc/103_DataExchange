@@ -20,7 +20,7 @@ namespace JH.TC.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "104(中投區免試)學生匯入資料";
+            string ReportName = "105(中投區免試)學生匯入資料";
             string UUID = "138B7160-058D-40CF-9494-6DF0E87357EB";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
@@ -206,6 +206,7 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("座號");
                     dt.Columns.Add("學生姓名");
                     dt.Columns.Add("身分證統一編號");
+                    dt.Columns.Add("非中華民國身分證號");
                     dt.Columns.Add("性別");
                     dt.Columns.Add("出生年(民國年)");
                     dt.Columns.Add("出生月");
@@ -214,6 +215,7 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("畢業年(民國年)");
                     dt.Columns.Add("畢肄業");
                     dt.Columns.Add("學生身分");
+                    dt.Columns.Add("學生報名身分");
                     dt.Columns.Add("身心障礙");
                     dt.Columns.Add("就學區");
                     dt.Columns.Add("低收入戶");
@@ -222,12 +224,10 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("資料授權");
                     dt.Columns.Add("家長姓名");
                     dt.Columns.Add("市內電話");
+                    dt.Columns.Add("市內電話分機");
                     dt.Columns.Add("行動電話");
                     dt.Columns.Add("郵遞區號");
-                    dt.Columns.Add("通訊地址");
-                    dt.Columns.Add("原住民是否含母語認證");
-                    dt.Columns.Add("非中華民國身分證號");
-                    dt.Columns.Add("特殊生加分百分比", typeof(int));
+                    dt.Columns.Add("通訊地址");                    
                     dt.Columns.Add("就近入學", typeof(int));
                     dt.Columns.Add("偏遠地區", typeof(int));
                     dt.Columns.Add("健康與體育", typeof(int));
@@ -250,9 +250,13 @@ namespace JH.TC.DataExchange._103
                         row["序號"] = seq;//3
                         row["學號"] = csr.StudentNumber;//4
                         row["班級"] = csr.ClassName;//5
-                        row["座號"] = csr.SeatNo;//6
+                        if (csr.SeatNo.HasValue)
+                            row["座號"] = string.Format("{0:00}", csr.SeatNo.Value);
+                        else
+                            row["座號"] = "";
                         row["學生姓名"] = csr.Name;//7
                         row["身分證統一編號"] = csr.IDNumber;//8
+                        row["非中華民國身分證號"] = ddSMaps.ContainsKey(csr.ID + delimiter + "非中華民國身分證號") ? "V" : null;//29
                         row["性別"] = csr.Gender;//9
                         row["出生年(民國年)"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Year - 1911) : "";//10
                         row["出生月"] = csr.Birthday.HasValue ? "" + (csr.Birthday.Value.Month) : "";//11
@@ -279,6 +283,37 @@ namespace JH.TC.DataExchange._103
                             }
                         }
                         row["學生身分"] = (strtmp == "" ? "0" : strtmp);
+                        
+                        strtmp = "";
+                        foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
+                             {"一般生","0"},
+{"身障生","1"},
+{"原住民(有認證)","2"},
+{"原住民(無認證)","3"},
+{"蒙藏生","4"},
+{"外派子女25%","5"},
+{"外派子女15%","6"},
+{"外派子女10%","7"},
+{"退伍軍人25%","8"},
+{"退伍軍人20%","9"},
+{"退伍軍人15%","A"},
+{"退伍軍人10%","B"},
+{"退伍軍人5%","C"},
+{"退伍軍人3%","D"},
+{"優秀子女25%","E"},
+{"優秀子女15%","F"},
+{"優秀子女10%","G"},
+{"僑生","H"}})
+                        {
+                            if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
+                            {                              
+                                strtmp += item.Value;
+                                break;
+                            }
+                        }
+                        row["學生報名身分"] = (strtmp == "" ? "0" : strtmp);
+
+
                         strtmp = "";
                         foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                                                                 //{"非身心障礙考生",0},
@@ -316,10 +351,8 @@ namespace JH.TC.DataExchange._103
                         row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
                         row["郵遞區號"] = csr.MallingAddressZipCode;//26
                         row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
-                        row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
-                        row["非中華民國身分證號"] = ddSMaps.ContainsKey(csr.ID + delimiter + "非中華民國身分證號") ? "V" : null;//29
-
-                        //// 處理特殊生加分百分比
+                        //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
+                         //// 處理特殊生加分百分比
                         // foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                              
                         // }

@@ -17,7 +17,8 @@ namespace JH.TC.DataExchange._103
 
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
         private List<MapRecord> _MapRecords = new List<MapRecord>();
-        public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緖行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "非中華民國身分證號", "就近入學", "偏遠地區" };
+        //public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緖行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "非中華民國身分證號", "就近入學", "偏遠地區" };
+        public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緖行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "非中華民國身分證號", "就近入學", "偏遠地區", "身障生", "原住民(有認證)", "原住民(無認證)", "蒙藏生", "外派子女25%", "外派子女15%", "外派子女10%", "退伍軍人25%", "退伍軍人20%", "退伍軍人15%", "退伍軍人10%", "退伍軍人5%", "退伍軍人3%", "優秀子女25%", "優秀子女15%", "優秀子女10%", "僑生" };
         public string AbsenceType = "";
         public Map()
         {
@@ -99,6 +100,11 @@ namespace JH.TC.DataExchange._103
         }
 
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
+
+        private void Map_Load(object sender, EventArgs e)
         {
 
         }
