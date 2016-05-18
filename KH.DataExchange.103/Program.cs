@@ -77,7 +77,18 @@ namespace KH.DataExchange._103
                                     urrGrade = item.GradeYear;
                             }
                             if (urrGrade == 3 || urrGrade == 9)
-                                dsHas1year[urr.Student.IDNumber] = 0;
+                            {
+                                if (urr.Semester == 1)
+                                {
+                                    if (DateTime.Parse(urr.UpdateDate) >= DateTime.Parse("" + (1911 + urr.SchoolYear) + "/9/1"))
+                                    {
+                                        //確認轉入日期為3上開學後
+                                        dsHas1year[urr.Student.IDNumber] = 0;
+                                    }
+                                }
+                                else
+                                    dsHas1year[urr.Student.IDNumber] = 0;
+                            }
                             //else if (urrGrade == 0)
                             //    ;
                         }
@@ -180,7 +191,7 @@ namespace KH.DataExchange._103
                         row["9下成績"] = "";
                 }
             }
-            
+
             string reportName = inputReportName;
 
 
