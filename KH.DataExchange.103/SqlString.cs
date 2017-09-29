@@ -568,12 +568,12 @@ from
 	UNION ALL
 		select student.id
 			, '幹部任期次數' as ""科目""
-			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7上成績""
-			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7下成績""
-			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8上成績""
-			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8下成績""
-			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
-            ,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9下成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7上成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7下成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8上成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8下成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
+            ,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
@@ -840,8 +840,8 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@A'), '^$', '0') as integer) as ""大過""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@B'), '^$', '0') as integer) as ""小過""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@C'), '^$', '0') as integer) as ""警告""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]') END as ""事由類別""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[][^\]]*[\]]')) ELSE x1.reason END as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
@@ -1023,8 +1023,8 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@A'), '^$', '0') as integer) as ""大過""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@B'), '^$', '0') as integer) as ""小過""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@C'), '^$', '0') as integer) as ""警告""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]') END as ""事由類別""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[][^\]]*[\]]')) ELSE x1.reason END as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
@@ -1206,8 +1206,8 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@A'), '^$', '0') as integer) as ""大過""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@B'), '^$', '0') as integer) as ""小過""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Demerit/@C'), '^$', '0') as integer) as ""警告""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]') END as ""事由類別""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[][^\]]*[\]]')) ELSE x1.reason END as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
@@ -1389,8 +1389,8 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@A'), '^$', '0') as integer) as ""大功""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@B'), '^$', '0') as integer) as ""小功""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@C'), '^$', '0') as integer) as ""嘉獎""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]') END as ""事由類別""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[][^\]]*[\]]')) ELSE x1.reason END as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
@@ -1570,8 +1570,8 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@A'), '^$', '0') as integer) as ""大功""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@B'), '^$', '0') as integer) as ""小功""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@C'), '^$', '0') as integer) as ""嘉獎""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]') END as ""事由類別""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[][^\]]*[\]]')) ELSE x1.reason END as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
@@ -1751,8 +1751,8 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@A'), '^$', '0') as integer) as ""大功""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@B'), '^$', '0') as integer) as ""小功""
 			        ,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@C'), '^$', '0') as integer) as ""嘉獎""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			        ,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN btrim( substring(x1.reason from E'^[\[][^\]]*[\]]'),'[]') END as ""事由類別""
+			        ,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[][^\]]*[\]]')) ELSE x1.reason END as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
@@ -2487,8 +2487,8 @@ from
 			,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@A'), '^$', '0') as integer) as ""大功""
 			,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@B'), '^$', '0') as integer) as ""小功""
 			,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@C'), '^$', '0') as integer) as ""嘉獎""
-			,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN substring(x1.reason, 2, position( ']' in x1.reason )-2) END as ""事由類別""		
-			,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN substring(x1.reason, position( ']' in x1.reason ) + 1 ) ELSE x1.reason END as ""事由""
+			,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN substring(x1.reason, 2, position( ']' in x1.reason )-2) END as ""事由類別""		
+			,CASE WHEN x1.reason ~ E'^[\[][^\]]*[\]]' THEN substring(x1.reason, position( ']' in x1.reason ) + 1 ) ELSE x1.reason END as ""事由""
 		from 
 			student
 			left outer join class on student.ref_class_id=class.id
