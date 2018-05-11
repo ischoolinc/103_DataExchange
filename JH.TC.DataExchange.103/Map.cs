@@ -13,6 +13,7 @@ namespace JH.TC.DataExchange._103
 {
     public partial class Map : BaseForm
     {
+        public string date { get; set; }
         private List<TagConfigRecord> _TagConfigRecords = new List<TagConfigRecord>();
 
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
@@ -74,6 +75,8 @@ namespace JH.TC.DataExchange._103
         }
         private void buttonX1_Click(object sender, EventArgs e)
         {
+            date = dateTimeInput1.Value.ToString("yyyy/MM/dd");
+            //string sql = SqlString.Query(dateTimeInput1.Value.ToString("yyyy/MM/dd"));
             _AccessHelper.DeletedValues(_MapRecords);
             _MapRecords.Clear();
             MapRecord mr;

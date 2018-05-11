@@ -20,6 +20,7 @@ namespace JH.TC.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
+            string _date = "";
             string ReportName = "105(中投區免試)學生匯入資料";
             string UUID = "138B7160-058D-40CF-9494-6DF0E87357EB";
 
@@ -163,7 +164,9 @@ namespace JH.TC.DataExchange._103
                     //}
                     #endregion
                     #region 在Sql中處理的:健康與體育,藝術與人文,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
-                    tmp = _Q.Select(SqlString.Query1);
+                    SqlString ob = new SqlString();
+
+                    tmp = _Q.Select(SqlString.Query(_date));
                     Dictionary<string, DataRow> dSGrade = new Dictionary<string, DataRow>();
                     foreach (DataRow row in tmp.Rows)
                     {
@@ -364,15 +367,15 @@ namespace JH.TC.DataExchange._103
 
                         if (dSGrade.ContainsKey(csr.ID))
                         {
-                            row["健康與體育"] = dSGrade[csr.ID][1];//32
-                            row["藝術與人文"] = dSGrade[csr.ID][2];//33
-                            row["綜合活動"] = dSGrade[csr.ID][3];//34
-                            row["記過紀錄"] = dSGrade[csr.ID][4];//35
-                            row["大功支數"] = dSGrade[csr.ID][5];//36
-                            row["小功支數"] = dSGrade[csr.ID][6];//37
-                            row["嘉獎支數"] = dSGrade[csr.ID][7];//38
-                            row["服務學習得分"] = dSGrade[csr.ID][8];// dSGrade[csr.ID][10];//39
-                            row["社團得分"] = dSGrade[csr.ID][9];// dSGrade[csr.ID][11];//40
+                            row["健康與體育"] = dSGrade[csr.ID]["健康與體育"];//dSGrade[csr.ID][1];//32
+                            row["藝術與人文"] = dSGrade[csr.ID]["藝術與人文"];//dSGrade[csr.ID][2];//33
+                            row["綜合活動"] = dSGrade[csr.ID]["綜合活動"];//dSGrade[csr.ID][3];//34
+                            row["記過紀錄"] = dSGrade[csr.ID]["記過紀錄"];//dSGrade[csr.ID][4];//35
+                            row["大功支數"] = dSGrade[csr.ID]["大功支數"];//dSGrade[csr.ID][5];//36
+                            row["小功支數"] = dSGrade[csr.ID]["小功支數"];//dSGrade[csr.ID][6];//37
+                            row["嘉獎支數"] = dSGrade[csr.ID]["嘉獎支數"];//dSGrade[csr.ID][7];//38
+                            row["服務學習得分"] = dSGrade[csr.ID]["服務學習得分"];//dSGrade[csr.ID][8];// dSGrade[csr.ID][10];//39
+                            row["社團得分"] = dSGrade[csr.ID]["社團得分"];//dSGrade[csr.ID][9];// dSGrade[csr.ID][11];//40
                         }
                         #endregion
                         dt.Rows.Add(row);
@@ -389,8 +392,10 @@ namespace JH.TC.DataExchange._103
             };
             button.Click += delegate
             {
-                if (new Map().ShowDialog() == DialogResult.OK && !bkw.IsBusy)
+                Map map = new Map();
+                if (map.ShowDialog() == DialogResult.OK && !bkw.IsBusy)
                 {
+                    _date = map.date;
                     button.Enable = false;
                     bkw.RunWorkerAsync();
                 }
