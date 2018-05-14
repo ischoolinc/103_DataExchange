@@ -111,5 +111,15 @@ namespace JH.TC.DataExchange._103
         {
 
         }
+
+        private void qaLb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            (new QAForm()).ShowDialog();
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            (new LeagleForm()).ShowDialog();
+        }
     }
 }

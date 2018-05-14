@@ -12,7 +12,7 @@ namespace JH.TC.DataExchange._103
         public static string Query(string date)
         {
             string sql = string.Format(@"
-            WITH target_datetime AS(
+WITH target_datetime AS(
 	SELECT
 		'{0}'::TIMESTAMP AS end_date
 ) ,target_student AS(
@@ -59,11 +59,11 @@ namespace JH.TC.DataExchange._103
 			SELECT
 				id
 				, CASE WHEN (target_sems_history.grade_year IN(7,1) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear1
-				, CASE WHEN (target_sems_history.grade_year IN(7,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear2
-				, CASE WHEN (target_sems_history.grade_year IN(8,1) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear3
-				, CASE WHEN (target_sems_history.grade_year IN(8,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear4
-				, CASE WHEN (target_sems_history.grade_year IN(9,1) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear5
-				, CASE WHEN (target_sems_history.grade_year IN(9,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear6
+				, CASE WHEN (target_sems_history.grade_year IN(7,1) AND target_sems_history.semester = 2) THEN target_sems_history.school_year ELSE 0 END schoolyear2
+				, CASE WHEN (target_sems_history.grade_year IN(8,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear3
+				, CASE WHEN (target_sems_history.grade_year IN(8,2) AND target_sems_history.semester = 2) THEN target_sems_history.school_year ELSE 0 END schoolyear4
+				, CASE WHEN (target_sems_history.grade_year IN(9,3) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear5
+				, CASE WHEN (target_sems_history.grade_year IN(9,3) AND target_sems_history.semester = 2) THEN target_sems_history.school_year ELSE 0 END schoolyear6
 			FROM
 				target_sems_history
 		) shistory ON target_student.id = shistory.id
@@ -279,11 +279,11 @@ FROM
 		SELECT 
 			target_sems_history.id
 			, CASE WHEN (target_sems_history.grade_year IN(7,1) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear1
-			, CASE WHEN (target_sems_history.grade_year IN(7,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear2
-			, CASE WHEN (target_sems_history.grade_year IN(8,1) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear3
-			, CASE WHEN (target_sems_history.grade_year IN(8,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear4
-			, CASE WHEN (target_sems_history.grade_year IN(9,1) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear5
-			, CASE WHEN (target_sems_history.grade_year IN(9,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear6
+			, CASE WHEN (target_sems_history.grade_year IN(7,1) AND target_sems_history.semester = 2) THEN target_sems_history.school_year ELSE 0 END schoolyear2
+			, CASE WHEN (target_sems_history.grade_year IN(8,2) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear3
+			, CASE WHEN (target_sems_history.grade_year IN(8,2) AND target_sems_history.semester = 2) THEN target_sems_history.school_year ELSE 0 END schoolyear4
+			, CASE WHEN (target_sems_history.grade_year IN(9,3) AND target_sems_history.semester = 1) THEN target_sems_history.school_year ELSE 0 END schoolyear5
+			, CASE WHEN (target_sems_history.grade_year IN(9,3) AND target_sems_history.semester = 2) THEN target_sems_history.school_year ELSE 0 END schoolyear6
             
         FROM 
         	target_sems_history

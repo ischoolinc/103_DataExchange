@@ -116,6 +116,23 @@
     <Compile Include="MapRecord.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LeagleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LeagleForm.Designer.cs">
+      <DependentUpon>LeagleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QAForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QAForm.Designer.cs">
+      <DependentUpon>QAForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResultScoreRecord.cs" />
     <Compile Include="SqlString.cs" />
     <Compile Include="AbsenceMapRecord.cs" />
@@ -158,6 +175,7 @@
     <Content Include="Library\SmartSchool.Core.pdb" />
     <Content Include="Library\SmartSchool.Customization.Data.dll" />
     <Content Include="Library\SmartSchool.Customization.Data.xml" />
+    <Content Include="Resources\107中投區高中職免試入學比序積分計算規則.PNG" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AbsenceMap.resx">
@@ -165,6 +183,16 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Map.resx">
       <DependentUpon>Map.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LeagleForm.resx">
+      <DependentUpon>LeagleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QAForm.resx">
+      <DependentUpon>QAForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
