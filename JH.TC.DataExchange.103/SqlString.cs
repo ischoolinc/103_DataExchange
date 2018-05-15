@@ -152,12 +152,21 @@ WITH target_datetime AS(
 		        , CAST( regexp_replace( xpath_string(discipline.detail,'/Discipline/Demerit/@C'), '^$', '0') AS INTEGER) AS 警告
 			FROM
 				target_datetime
-				LEFT OUTER JOIN discipline
-					ON discipline.occur_date <= target_datetime.end_date 
+				LEFT OUTER JOIN (
+					SELECT
+						*
+						, CASE 
+							WHEN xpath_string(discipline.detail,'/Discipline/Demerit/@ClearDate') = '' 
+							THEN '1970/1/1'::TIMESTAMP 
+							ELSE xpath_string(discipline.detail,'/Discipline/Demerit/@ClearDate')::TIMESTAMP
+						END AS cleardate
+					FROM
+						discipline
+				) discipline ON discipline.occur_date <= target_datetime.end_date 
 			WHERE
 				merit_flag = 0
 				AND xpath_string(discipline.detail,'/Discipline/Demerit/@Cleared') = '是'
-				AND xpath_string(discipline.detail,'/Discipline/Demerit/@ClearDate')::TIMESTAMP > (SELECT end_date FROM target_datetime)
+				AND discipline.cleardate > (SELECT end_date FROM target_datetime)
 				AND ref_student_id IN(SELECT id FROM target_student)		
 		) AS target_discipline ON target_student.id = target_discipline.ref_student_id
 	GROUP BY target_student.id

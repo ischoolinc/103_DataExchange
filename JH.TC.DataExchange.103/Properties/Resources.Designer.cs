@@ -63,9 +63,9 @@ namespace JH.TC.DataExchange._103.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
-        internal static System.Drawing.Bitmap _107中投區高中職免試入學比序積分計算規則 {
+        internal static System.Drawing.Bitmap _107中投區高中職免試入學 {
             get {
-                object obj = ResourceManager.GetObject("_107中投區高中職免試入學比序積分計算規則", resourceCulture);
+                object obj = ResourceManager.GetObject("_107中投區高中職免試入學", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
