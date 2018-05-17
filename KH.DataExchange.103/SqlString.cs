@@ -16,7 +16,7 @@ namespace KH.DataExchange._103
 		where name = '學校資訊'
 	)as ""國中學校代碼""
 	, substr(class.class_name, length(class.class_name)-1, 2) as ""班級""
-	, student.id_number as ""身份證字號""
+	, student.id_number as ""身分證字號""
     ,'' as ""國一入學年度""
 	,'1' as ""是否就讀滿一學年""
     ,'' as ""成績未滿6學期""
@@ -2346,7 +2346,7 @@ select (
 	    where name = '學校資訊'
 	)as ""國中學校代碼""
 	, substr(class.class_name, length(class.class_name)-1, 2) as ""班級""
-	, student.id_number as ""身份證字號""
+	, student.id_number as ""身分證字號""
 	,CASE 
 		WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN '7上'
 		WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN '7下'
@@ -2532,7 +2532,7 @@ where
 		or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 		or (x1.school_year=shistory.schoolyear6 and x1.semester= 2)
 	)
-order by class.display_order, class.class_name, seat_no, 身份證字號, 學期;
+order by class.display_order, class.class_name, seat_no, 身分證字號, 學期;
 ";
         #endregion
     }

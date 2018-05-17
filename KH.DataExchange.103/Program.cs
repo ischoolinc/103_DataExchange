@@ -110,7 +110,7 @@ namespace KH.DataExchange._103
                     foreach (DataRow row in dt_source.Rows)
                     {
                         row[3] = (dsSchoolyear.ContainsKey("" + row[2])) ? "" + dsSchoolyear["" + row[2]] : "";
-                        if (row[3] == "" && !needFix.Contains("" + row[2]))
+                        if ("" + row[3] == "" && !needFix.Contains("" + row[2]))
                         {
                             needFix.Add("" + row[2]);
                         }
