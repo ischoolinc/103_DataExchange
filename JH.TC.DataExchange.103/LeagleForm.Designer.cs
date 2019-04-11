@@ -35,10 +35,10 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::JH.TC.DataExchange._103.Properties.Resources._107中投區高中職免試入學;
+            this.pictureBox1.Image = global::JH.TC.DataExchange._103.Properties.Resources._108中投區高中職免試入學;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(692, 383);
+            this.pictureBox1.Size = new System.Drawing.Size(877, 542);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -46,11 +46,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(724, 411);
+            this.ClientSize = new System.Drawing.Size(914, 569);
             this.Controls.Add(this.pictureBox1);
             this.DoubleBuffered = true;
-            this.MaximumSize = new System.Drawing.Size(740, 450);
-            this.MinimumSize = new System.Drawing.Size(740, 450);
+            this.MaximumSize = new System.Drawing.Size(930, 608);
+            this.MinimumSize = new System.Drawing.Size(930, 608);
             this.Name = "LeagleForm";
             this.Text = "107年度簡章規範";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

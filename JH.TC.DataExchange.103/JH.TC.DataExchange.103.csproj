@@ -38,6 +38,7 @@
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\DevComponents.DotNetBar2.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FISCA, Version=2.1.4.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -175,7 +176,7 @@
     <Content Include="Library\SmartSchool.Core.pdb" />
     <Content Include="Library\SmartSchool.Customization.Data.dll" />
     <Content Include="Library\SmartSchool.Customization.Data.xml" />
-    <Content Include="Resources\107中投區高中職免試入學.png" />
+    <Content Include="Resources\108中投區高中職免試入學.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AbsenceMap.resx">

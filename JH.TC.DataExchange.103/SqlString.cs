@@ -275,7 +275,9 @@ WITH target_datetime AS(
 		LEFT OUTER JOIN target_sems_history
 			ON target_sems_history.id::BIGINT = target_student.id 
 	    LEFT JOIN $k12.service.learning.record AS x1 
-	    	ON (''||target_student.id) = x1.ref_student_id 
+	    	ON (''||target_student.id) = x1.ref_student_id
+            AND x1.school_year = target_sems_history.school_year
+			AND x1.semester = target_sems_history.semester
 	        AND x1.occur_date <= (SELECT * FROM target_datetime)
     GROUP BY target_student.id
 ) ,target_club AS(

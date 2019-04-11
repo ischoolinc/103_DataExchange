@@ -181,7 +181,7 @@
             this.dateTimeInput1.Size = new System.Drawing.Size(154, 25);
             this.dateTimeInput1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.dateTimeInput1.TabIndex = 35;
-            this.dateTimeInput1.Value = new System.DateTime(2018, 4, 27, 0, 0, 0, 0);
+            this.dateTimeInput1.Value = new System.DateTime(2019, 4, 30, 0, 0, 0, 0);
             // 
             // groupPanel1
             // 
@@ -260,7 +260,7 @@
             this.linkLabel2.Size = new System.Drawing.Size(110, 17);
             this.linkLabel2.TabIndex = 39;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "107年度簡章規範";
+            this.linkLabel2.Text = "108年度簡章規範";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // Map
@@ -278,7 +278,7 @@
             this.Controls.Add(this.buttonX1);
             this.DoubleBuffered = true;
             this.Name = "Map";
-            this.Text = "105(中投區免試)學生匯入資料";
+            this.Text = "108(中投區免試)學生匯入資料";
             this.Load += new System.EventHandler(this.Map_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();
