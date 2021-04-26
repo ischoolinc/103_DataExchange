@@ -244,12 +244,16 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("社團得分", typeof(int));
                     #endregion
                     int seq = 1;
+
+                    // 讀取學校代碼
+                    string school_code = K12.Data.School.Code;
+
                     foreach (custStudentRecord csr in csrl)
                     {
                         DataRow row = dt.NewRow();
                         #region 填入資料
                         row["考區代碼"] = "07";//1
-                        row["集報單位代碼"] = "";//2
+                        row["集報單位代碼"] = school_code;//2
                         row["序號"] = seq;//3
                         row["學號"] = csr.StudentNumber;//4
                         row["班級"] = csr.ClassName;//5
@@ -352,8 +356,15 @@ namespace JH.TC.DataExchange._103
                         row["家長姓名"] = csr.CustodianName;//23
                         row["市內電話"] = csr.ContactPhone != null ? csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//24
                         row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
-                        row["郵遞區號"] = csr.MallingAddressZipCode;//26
-                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
+
+                        string zipCode = "";
+
+                        if (csr.MallingAddressZipCode != null)
+                            zipCode = csr.MallingAddressZipCode;
+
+
+                        row["郵遞區號"] = zipCode;//26
+                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("["+ zipCode + "]", "") : "";//27
                         //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
                          //// 處理特殊生加分百分比
                         // foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
