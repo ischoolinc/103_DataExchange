@@ -261,6 +261,7 @@
             this.linkLabel2.TabIndex = 39;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "108年度簡章規範";
+            this.linkLabel2.Visible = false;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // Map
@@ -278,7 +279,7 @@
             this.Controls.Add(this.buttonX1);
             this.DoubleBuffered = true;
             this.Name = "Map";
-            this.Text = "108(中投區免試)學生匯入資料";
+            this.Text = "(中投區免試)學生匯入資料";
             this.Load += new System.EventHandler(this.Map_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();

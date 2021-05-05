@@ -107,6 +107,7 @@
     <Compile Include="AbsenceMap.Designer.cs">
       <DependentUpon>AbsenceMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigRecord.cs" />
     <Compile Include="custStudentRecord.cs" />
     <Compile Include="Map.cs">
       <SubType>Form</SubType>

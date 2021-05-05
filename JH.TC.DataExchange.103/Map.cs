@@ -16,8 +16,13 @@ namespace JH.TC.DataExchange._103
         public string date { get; set; }
         private List<TagConfigRecord> _TagConfigRecords = new List<TagConfigRecord>();
 
+        ConfigRecord _confRec;
+
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
         private List<MapRecord> _MapRecords = new List<MapRecord>();
+
+        List<ConfigRecord> _confRecList = new List<ConfigRecord>();
+
         //public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緖行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "非中華民國身分證號", "就近入學", "偏遠地區" };
         public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緖行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "非中華民國身分證號", "就近入學", "偏遠地區", "身障生", "原住民(有認證)", "原住民(無認證)", "蒙藏生", "外派子女25%", "外派子女15%", "外派子女10%", "退伍軍人25%", "退伍軍人20%", "退伍軍人15%", "退伍軍人10%", "退伍軍人5%", "退伍軍人3%", "優秀子女25%", "優秀子女15%", "優秀子女10%", "僑生" };
         public string AbsenceType = "";
@@ -38,7 +43,35 @@ namespace JH.TC.DataExchange._103
                     StudentTag.Items.Add(item.Name);
             }
             _MapRecords = _AccessHelper.Select<MapRecord>();
-            DataGridViewRow row;
+
+            _confRecList = _AccessHelper.Select<ConfigRecord>();
+
+            if (_confRecList.Count == 0)
+            {
+                ConfigRecord rec = new ConfigRecord();
+                rec.Name = "採計截止日期";
+                rec.Value = DateTime.Now.ToShortDateString();
+                _confRecList.Add(rec);
+                _confRecList.SaveAll();
+            }
+
+            foreach(ConfigRecord rec in _confRecList)
+            {
+                if (rec.Name == "採計截止日期")
+                    _confRec = rec;
+            }
+
+            if (_confRec != null)
+            {
+                DateTime dt;
+
+                if (DateTime.TryParse(_confRec.Value,out dt))
+                {
+                    dateTimeInput1.Value = dt;
+                }
+            }
+
+             DataGridViewRow row;
             int index;
             foreach (string key in SpecialList)
             {
@@ -77,6 +110,17 @@ namespace JH.TC.DataExchange._103
         {
             date = dateTimeInput1.Value.ToString("yyyy/MM/dd");
             //string sql = SqlString.Query(dateTimeInput1.Value.ToString("yyyy/MM/dd"));
+
+            // 回存截止日期
+            if (_confRec == null)
+            {
+                _confRec = new ConfigRecord();
+                _confRec.Name = "採計截止日期";
+            }
+
+            _confRec.Value = date;
+            _confRec.Save();
+
             _AccessHelper.DeletedValues(_MapRecords);
             _MapRecords.Clear();
             MapRecord mr;
