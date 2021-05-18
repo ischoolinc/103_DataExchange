@@ -862,7 +862,7 @@ from
 			        ,CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@B'), '^$', '0') as integer) as ""小過""
 			        ,CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@C'), '^$', '0') as integer) as ""警告""
 			        ,'' as ""事由類別""
-			        ,school_year || '-' || semester || '獎勵統計' as ""事由""
+			        , '' as ""事由""
 		        from 
 			        student
 			        left outer join class on student.ref_class_id=class.id
