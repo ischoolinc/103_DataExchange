@@ -21,7 +21,8 @@ namespace JH.TC.DataExchange._103
             DataGridViewRow dgvrow1 = new DataGridViewRow();
             dgvrow1.CreateCells(dataGridViewX1);
             dgvrow1.Cells[0].Value = "均衡學習";
-            dgvrow1.Cells[1].Value = "系統根據學生的學期歷程資料讀取學生就學期間的學年度、學期，進一步的去比對學生的學期科目成績，將屬於健體、藝文、綜合這三個領域的學期科目成績做五學期的平均計算。";
+            //dgvrow1.Cells[1].Value = "系統根據學生的學期歷程資料讀取學生就學期間的學年度、學期，進一步的去比對學生的學期科目成績，將屬於健體、藝文、綜合這三個領域的學期科目成績做五學期的平均計算。";
+            dgvrow1.Cells[1].Value = "系統根據學生的學期歷程資料讀取學生就學期間的學年度、學期，進一步的去比對學生的學期科目成績，將屬於健體、藝術、綜合、科技這四個領域的學期科目成績做五學期的平均計算。";
             dgvrow1.Cells[2].Value = "12分";
             dataGridViewX1.Rows.Add(dgvrow1);
 
