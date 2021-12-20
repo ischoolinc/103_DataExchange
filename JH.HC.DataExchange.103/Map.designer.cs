@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,10 +58,36 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 13);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(567, 245);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
+            // 
+            // key
+            // 
+            this.key.HeaderText = "類型";
+            this.key.MinimumWidth = 6;
+            this.key.Name = "key";
+            this.key.ReadOnly = true;
+            this.key.Width = 200;
+            // 
+            // StudentTag
+            // 
+            this.StudentTag.HeaderText = "學生類別";
+            this.StudentTag.MinimumWidth = 6;
+            this.StudentTag.Name = "StudentTag";
+            this.StudentTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StudentTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.StudentTag.Width = 340;
+            // 
+            // note
+            // 
+            this.note.HeaderText = "備註";
+            this.note.MinimumWidth = 6;
+            this.note.Name = "note";
+            this.note.Visible = false;
+            this.note.Width = 60;
             // 
             // btnExit
             // 
@@ -98,7 +124,7 @@
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel1.Location = new System.Drawing.Point(12, 268);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(60, 17);
+            this.linkLabel1.Size = new System.Drawing.Size(78, 22);
             this.linkLabel1.TabIndex = 33;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "假別設定";
@@ -111,35 +137,13 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(102, 268);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(185, 17);
+            this.label1.Size = new System.Drawing.Size(241, 22);
             this.label1.TabIndex = 34;
             this.label1.Text = "[類別]表示該類別內所有類別。";
             // 
-            // key
-            // 
-            this.key.HeaderText = "類型";
-            this.key.Name = "key";
-            this.key.ReadOnly = true;
-            this.key.Width = 200;
-            // 
-            // StudentTag
-            // 
-            this.StudentTag.HeaderText = "學生類別";
-            this.StudentTag.Name = "StudentTag";
-            this.StudentTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.StudentTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.StudentTag.Width = 340;
-            // 
-            // note
-            // 
-            this.note.HeaderText = "備註";
-            this.note.Name = "note";
-            this.note.Visible = false;
-            this.note.Width = 60;
-            // 
             // Map
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 299);
             this.Controls.Add(this.label1);
@@ -149,7 +153,7 @@
             this.Controls.Add(this.dataGridView1);
             this.DoubleBuffered = true;
             this.Name = "Map";
-            this.Text = "105(竹苗區免試)學生匯入資料";
+            this.Text = "111(竹苗區免試)學生匯入資料";
             this.Load += new System.EventHandler(this.Map_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

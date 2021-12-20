@@ -11,7 +11,7 @@ namespace JH.HS.DataExchange._103
 select 
     student.id
     ,sss.健康與體育
-    ,sss.藝術與人文
+    ,sss.藝術
     ,sss.綜合活動
     ,disc.大功支數
     ,disc.小功支數
@@ -31,7 +31,7 @@ from
     (
         select student.id
 			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""健康與體育""
-			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""藝術與人文""
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""藝術""
 			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""綜合活動""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)

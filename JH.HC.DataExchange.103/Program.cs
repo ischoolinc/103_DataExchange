@@ -20,7 +20,7 @@ namespace JH.HS.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "105(竹苗區免試)學生匯入資料";
+            string ReportName = "111(竹苗區免試)學生匯入資料";
             string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
@@ -166,13 +166,13 @@ namespace JH.HS.DataExchange._103
                     //    }
                     //}
                     #endregion
-                    #region 在Sql中處理的:健康與體育,藝術與人文,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
+                    #region 在Sql中處理的:健康與體育,藝術,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
 
                     // 分批處理，因為一次會認成德高中國中部爆
                     List<string> colNameList = new List<string>();
                     colNameList.Add("id");
                     colNameList.Add("健康與體育");
-                    colNameList.Add("藝術與人文");
+                    colNameList.Add("藝術");
                     colNameList.Add("綜合活動");
                     colNameList.Add("大功支數");
                     colNameList.Add("小功支數");
@@ -319,7 +319,7 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("扶助弱勢");
                     dt.Columns.Add("就近入學");
                     dt.Columns.Add("健康與體育");
-                    dt.Columns.Add("藝術與人文");
+                    dt.Columns.Add("藝術");
                     dt.Columns.Add("綜合活動");
                     dt.Columns.Add("國一上曠課紀錄");
                     dt.Columns.Add("國一下曠課紀錄");
@@ -338,6 +338,9 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("服務學習時數_八上");
                     dt.Columns.Add("服務學習時數_八下");
                     dt.Columns.Add("服務學習時數_九上");
+                    dt.Columns.Add("本土語言認證");
+                    dt.Columns.Add("本土語言認證證書");
+                    dt.Columns.Add("學生電子郵件(E-mail) ");
                     #endregion
                     int seq = 1;
                     foreach (custStudentRecord csr in csrl)
@@ -468,7 +471,7 @@ namespace JH.HS.DataExchange._103
                         if (dSGrade.ContainsKey(csr.ID))
                         {
                             row["健康與體育"] = dSGrade[csr.ID][1];//32
-                            row["藝術與人文"] = dSGrade[csr.ID][2];//33
+                            row["藝術"] = dSGrade[csr.ID][2];//33
                             row["綜合活動"] = dSGrade[csr.ID][3];//34
 
                             if (dSGrade[csr.ID][4] != null && dSGrade[csr.ID][4].ToString()!="")
@@ -494,6 +497,21 @@ namespace JH.HS.DataExchange._103
                             row["服務學習時數_八上"] = dSGrade[csr.ID][12];//45
                             row["服務學習時數_八下"] = dSGrade[csr.ID][13];//46
                             row["服務學習時數_九上"] = dSGrade[csr.ID][14];//47
+                            row["本土語言認證"] = ddSMaps.ContainsKey(csr.ID + delimiter + "本土語言認證") ? 2 : 0;//48
+                            //row["本土語言認證證書"] = ddSMaps.ContainsKey(csr.ID + delimiter + "本土語言認證證書") ? 3 : 0;//49
+                            foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
+{"本土語言認證證書:原住民族語","1"},
+{"本土語言認證證書:客語","2"},
+{"本土語言認證證書:閩南語","3"}
+                            })
+                            {
+                                if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
+                                {
+                                    strtmp += item.Value;
+                                    break;
+                                }
+                            }
+                            row["本土語言認證證書"] = (strtmp == "" ? "0" : strtmp);//49
                         }
                         #endregion
                         dt.Rows.Add(row);
