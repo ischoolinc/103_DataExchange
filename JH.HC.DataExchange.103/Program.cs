@@ -499,6 +499,7 @@ namespace JH.HS.DataExchange._103
                             row["服務學習時數_九上"] = dSGrade[csr.ID][14];//47
                             row["本土語言認證"] = ddSMaps.ContainsKey(csr.ID + delimiter + "本土語言認證") ? 2 : 0;//48
                             //row["本土語言認證證書"] = ddSMaps.ContainsKey(csr.ID + delimiter + "本土語言認證證書") ? 3 : 0;//49
+                            strtmp = "";
                             foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
 {"本土語言認證證書:原住民族語","1"},
 {"本土語言認證證書:客語","2"},
