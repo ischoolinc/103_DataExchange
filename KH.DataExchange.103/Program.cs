@@ -53,6 +53,10 @@ namespace KH.DataExchange._103
                         sids.Add("" + row[0]);
                     }
                     bkw.ReportProgress(20);
+                    try
+                    {
+
+
                     dt_source = _Q.Select(SqlString.MultivariateScore);
                     List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(sids);
                     Dictionary<string, SemesterHistoryRecord> shrl = K12.Data.SemesterHistory.SelectByStudentIDs(sids).ToDictionary(x => x.RefStudentID, x => x);
@@ -101,7 +105,9 @@ namespace KH.DataExchange._103
                     }
 
                     bkw.ReportProgress(60);
-                    List<string> l = new List<string> { "藝術與人文", "健康與體育", "綜合活動", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+                    //List<string> l = new List<string> { "藝術與人文", "健康與體育", "綜合活動", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+                    List<string> l = new List<string> { "藝術", "健康與體育", "綜合活動","科技", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+
                     Dictionary<string, Dictionary<string, DataRow>> rowMapping = new Dictionary<string, Dictionary<string, DataRow>>();
                     int index = 0;
                     List<DataRow> deletedRows = new List<DataRow>();
@@ -158,9 +164,23 @@ namespace KH.DataExchange._103
                         }
                     }
                     bkw.ReportProgress(80);
+
                     CompletedXls("高雄區多元成績交換資料格式", dt_tmp, new Workbook());
                     dt_tmp = _Q.Select(SqlString.IncentiveRecord);
+                        //DataTable newDt_tmp = new DataTable();
+                        //foreach (DataRow dr in dt_tmp.Rows)
+                        //{
+                        //    var newRow;
+                        //    newRow[0]=dr["class_name"];
+
+                        //    newDt_tmp.ImportRow(newRow);
+                        //}
                     CompletedXls("高雄區多元成績-獎懲記錄交換資料格式", dt_tmp, new Workbook());
+                    }
+                    catch (Exception ex)
+                    {
+                        MsgBox.Show(ex.Message);
+                    }
                 }
                 catch (Exception exc)
                 {
@@ -182,7 +202,8 @@ namespace KH.DataExchange._103
             //遮蔽九下成績資料
             if (dt.Columns.Contains("科目") && dt.Columns.Contains("9下成績"))
             {
-                List<string> avoids = new List<string>(new string[] { "藝術與人文", "健康與體育", "綜合活動" });
+                //List<string> avoids = new List<string>(new string[] { "藝術與人文", "健康與體育", "綜合活動" });
+                List<string> avoids = new List<string>(new string[] { "藝術", "健康與體育", "綜合活動","科技" });
                 foreach (DataRow row in dt.Rows)
                 {
                     string subject = row["科目"].ToString();

@@ -2200,13 +2200,13 @@ from
             left join sems_subj_score as x6 on student.id=x6.ref_student_id and (''||x6.school_year)=shistory.schoolyear6 and x6.semester= 2
 	UNION ALL
 		select student.id
-			, '藝術與人文' as ""科目""
-			,xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""7上成績""
-			,xpath_string('<root>'||x2.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""7下成績""
-			,xpath_string('<root>'||x3.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""8上成績""
-			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""8下成績""
-			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""9上成績""
-            ,xpath_string('<root>'||x6.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""9下成績""
+			, '藝術' as ""科目""
+			,xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績') as ""7上成績""
+			,xpath_string('<root>'||x2.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績') as ""7下成績""
+			,xpath_string('<root>'||x3.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績') as ""8上成績""
+			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績') as ""8下成績""
+			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績') as ""9上成績""
+            ,xpath_string('<root>'||x6.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績') as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
@@ -2219,6 +2219,138 @@ from
 	                , ''||g6.SchoolYear as schoolyear6
                 FROM student 
                 left outer join (
+					SELECT 
+						id, max(SchoolYear) as SchoolYear 
+					FROM xpath_table( 
+						'id'
+						, '''<root>''||sems_history||''</root>'''
+						, 'student'
+						, '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear'
+						, 'id IN ( 
+							select 
+								student.id 
+							from 
+								student 
+								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
+						) AS tmp(id int, SchoolYear integer) 
+					group by id 
+				)as g1 on g1.id=student.id 
+				left outer join (
+					SELECT id, max(SchoolYear) as SchoolYear 
+					FROM xpath_table( 
+						'id'
+						, '''<root>''||sems_history||''</root>'''
+						, 'student'
+						, '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear'
+						, 'id IN ( 
+							select 
+								student.id 
+							from 
+								student 
+								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
+						) AS tmp(id int, SchoolYear integer) 
+					group by id 
+				)as g2 on g2.id=student.id 
+				left outer join (
+					SELECT id, max(SchoolYear) as SchoolYear 
+					FROM xpath_table( 
+						'id'
+						, '''<root>''||sems_history||''</root>'''
+						, 'student'
+						, '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear'
+						, 'id IN ( 
+							select 
+								student.id 
+							from 
+								student 
+								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
+						) AS tmp(id int, SchoolYear integer) 
+					group by id 
+				)as g3 on g3.id=student.id 
+				left outer join (
+					SELECT id, max(SchoolYear) as SchoolYear 
+					FROM xpath_table( 
+						'id'
+						, '''<root>''||sems_history||''</root>'''
+						, 'student'
+						, '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear'
+						, 'id IN ( 
+							select 
+								student.id 
+							from 
+								student 
+								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
+						) AS tmp(id int, SchoolYear integer) 
+					group by id 
+				)as g4 on g4.id=student.id 
+				left outer join (
+					SELECT id, max(SchoolYear) as SchoolYear 
+					FROM xpath_table( 
+						'id'
+						, '''<root>''||sems_history||''</root>'''
+						, 'student'
+						, '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear'
+						, 'id IN ( 
+							select 
+								student.id 
+							from 
+								student 
+								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
+						) AS tmp(id int, SchoolYear integer) 
+					group by id 
+				)as g5 on g5.id=student.id 
+				left outer join (
+					SELECT id, max(SchoolYear) as SchoolYear 
+					FROM xpath_table( 
+						'id'
+						, '''<root>''||sems_history||''</root>'''
+						, 'student'
+						, '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''2'')]/@SchoolYear'
+						, 'id IN ( 
+							select 
+								student.id 
+							from 
+								student 
+								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
+						) AS tmp(id int, SchoolYear integer) 
+					group by id 
+				)as g6 on g6.id=student.id 
+				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
+				WHERE student.status=1 AND class.grade_year in (3, 9)
+            )shistory on student.id=shistory.id
+			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
+			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
+			left join sems_subj_score as x3 on student.id=x3.ref_student_id and (''||x3.school_year)=shistory.schoolyear3 and x3.semester= 1
+			left join sems_subj_score as x4 on student.id=x4.ref_student_id and (''||x4.school_year)=shistory.schoolyear4 and x4.semester= 2
+			left join sems_subj_score as x5 on student.id=x5.ref_student_id and (''||x5.school_year)=shistory.schoolyear5 and x5.semester= 1
+            left join sems_subj_score as x6 on student.id=x6.ref_student_id and (''||x6.school_year)=shistory.schoolyear6 and x6.semester= 2
+	UNION ALL
+		select student.id
+			, '科技' as ""科目""
+			,xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績') as ""7上成績""
+			,xpath_string('<root>'||x2.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績') as ""7下成績""
+			,xpath_string('<root>'||x3.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績') as ""8上成績""
+			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績') as ""8下成績""
+			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績') as ""9上成績""
+            ,xpath_string('<root>'||x6.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績') as ""9下成績""
+		from 
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
+			left join (
+				SELECT student.id
+	                , ''||g1.SchoolYear as schoolyear1
+	                , ''||g2.SchoolYear as schoolyear2
+	                , ''||g3.SchoolYear as schoolyear3
+	                , ''||g4.SchoolYear as schoolyear4
+	                , ''||g5.SchoolYear as schoolyear5
+	                , ''||g6.SchoolYear as schoolyear6
+                FROM student 
+                left outer join (		
 					SELECT 
 						id, max(SchoolYear) as SchoolYear 
 					FROM xpath_table( 
