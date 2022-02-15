@@ -28,7 +28,7 @@ namespace KH.DataExchange._103
             Exception error = null;
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
             bkw.WorkerReportsProgress = true;
-            bkw.ProgressChanged += delegate(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+            bkw.ProgressChanged += delegate (object sender, System.ComponentModel.ProgressChangedEventArgs e)
             {
                 string message = e.ProgressPercentage == 100 ? "計算完成" : "計算中...";
                 FISCA.Presentation.MotherForm.SetStatusBarMessage("103高雄區免試入學資料轉檔" + message, e.ProgressPercentage);
@@ -57,116 +57,116 @@ namespace KH.DataExchange._103
                     {
 
 
-                    dt_source = _Q.Select(SqlString.MultivariateScore);
-                    List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(sids);
-                    Dictionary<string, SemesterHistoryRecord> shrl = K12.Data.SemesterHistory.SelectByStudentIDs(sids).ToDictionary(x => x.RefStudentID, x => x);
-                    Dictionary<string, string> dsSchoolyear = new Dictionary<string, string>();
-                    Dictionary<string, int> dsHas1year = new Dictionary<string, int>();
-                    foreach (UpdateRecordRecord urr in urrl)
-                    {
-                        if (!dsHas1year.ContainsKey(urr.Student.IDNumber))
-                            dsHas1year.Add(urr.Student.IDNumber, 1);//預設為1
-                        if (!dsSchoolyear.ContainsKey(urr.Student.IDNumber))
-                            dsSchoolyear.Add(urr.Student.IDNumber, "");//預設為""
-                        if (urr.UpdateCode == "1")
+                        dt_source = _Q.Select(SqlString.MultivariateScore);
+                        List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(sids);
+                        Dictionary<string, SemesterHistoryRecord> shrl = K12.Data.SemesterHistory.SelectByStudentIDs(sids).ToDictionary(x => x.RefStudentID, x => x);
+                        Dictionary<string, string> dsSchoolyear = new Dictionary<string, string>();
+                        Dictionary<string, int> dsHas1year = new Dictionary<string, int>();
+                        foreach (UpdateRecordRecord urr in urrl)
                         {
-                            dsSchoolyear[urr.Student.IDNumber] = "" + urr.SchoolYear;
-                        }
-                        else if (urr.UpdateCode == "3") //轉入
-                        {
-                            int urrGrade = 0;
-                            foreach (SemesterHistoryItem item in shrl[urr.StudentID].SemesterHistoryItems)//match schoolYear
+                            if (!dsHas1year.ContainsKey(urr.Student.IDNumber))
+                                dsHas1year.Add(urr.Student.IDNumber, 1);//預設為1
+                            if (!dsSchoolyear.ContainsKey(urr.Student.IDNumber))
+                                dsSchoolyear.Add(urr.Student.IDNumber, "");//預設為""
+                            if (urr.UpdateCode == "1")
                             {
-                                if (item.SchoolYear == urr.SchoolYear && item.Semester == urr.Semester)
-                                    urrGrade = item.GradeYear;
+                                dsSchoolyear[urr.Student.IDNumber] = "" + urr.SchoolYear;
                             }
-                            if (urrGrade == 3 || urrGrade == 9)
+                            else if (urr.UpdateCode == "3") //轉入
                             {
-                                if (urr.Semester == 1)
+                                int urrGrade = 0;
+                                foreach (SemesterHistoryItem item in shrl[urr.StudentID].SemesterHistoryItems)//match schoolYear
                                 {
-                                    if (DateTime.Parse(urr.UpdateDate) >= DateTime.Parse("" + (1911 + urr.SchoolYear) + "/9/1"))
-                                    {
-                                        //確認轉入日期為3上開學後
-                                        dsHas1year[urr.Student.IDNumber] = 0;
-                                    }
+                                    if (item.SchoolYear == urr.SchoolYear && item.Semester == urr.Semester)
+                                        urrGrade = item.GradeYear;
                                 }
-                                else
-                                    dsHas1year[urr.Student.IDNumber] = 0;
+                                if (urrGrade == 3 || urrGrade == 9)
+                                {
+                                    if (urr.Semester == 1)
+                                    {
+                                        if (DateTime.Parse(urr.UpdateDate) >= DateTime.Parse("" + (1911 + urr.SchoolYear) + "/9/1"))
+                                        {
+                                            //確認轉入日期為3上開學後
+                                            dsHas1year[urr.Student.IDNumber] = 0;
+                                        }
+                                    }
+                                    else
+                                        dsHas1year[urr.Student.IDNumber] = 0;
+                                }
+                                //else if (urrGrade == 0)
+                                //    ;
                             }
-                            //else if (urrGrade == 0)
-                            //    ;
                         }
-                    }
-                    List<string> verysmart = new List<string>();
-                    foreach (var item in K12.Data.StudentTag.SelectByStudentIDs(sids))
-                    {
-                        if (item.Name == "資賦優異縮短修業年限學生")
-                            verysmart.Add(item.Student.IDNumber);
-                    }
-
-                    bkw.ReportProgress(60);
-                    //List<string> l = new List<string> { "藝術與人文", "健康與體育", "綜合活動", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
-                    List<string> l = new List<string> { "藝術", "健康與體育", "綜合活動","科技", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
-
-                    Dictionary<string, Dictionary<string, DataRow>> rowMapping = new Dictionary<string, Dictionary<string, DataRow>>();
-                    int index = 0;
-                    List<DataRow> deletedRows = new List<DataRow>();
-                    DataTable dt_tmp = dt_source.Clone();
-                    List<string> needFix = new List<string>();
-                    foreach (DataRow row in dt_source.Rows)
-                    {
-                        row[3] = (dsSchoolyear.ContainsKey("" + row[2])) ? "" + dsSchoolyear["" + row[2]] : "";
-                        if ("" + row[3] == "" && !needFix.Contains("" + row[2]))
+                        List<string> verysmart = new List<string>();
+                        foreach (var item in K12.Data.StudentTag.SelectByStudentIDs(sids))
                         {
-                            needFix.Add("" + row[2]);
+                            if (item.Name == "資賦優異縮短修業年限學生")
+                                verysmart.Add(item.Student.IDNumber);
                         }
-                        row[4] = dsHas1year.ContainsKey("" + row[2]) ? "" + dsHas1year["" + row[2]] : "";
-                        if (verysmart.Contains("" + row[2]))
-                            row[5] = 1;
 
-                        if (!rowMapping.ContainsKey("" + row[2]))
+                        bkw.ReportProgress(60);
+                        //List<string> l = new List<string> { "藝術與人文", "健康與體育", "綜合活動", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+                        List<string> l = new List<string> { "藝術", "健康與體育", "綜合活動", "科技", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+
+                        Dictionary<string, Dictionary<string, DataRow>> rowMapping = new Dictionary<string, Dictionary<string, DataRow>>();
+                        int index = 0;
+                        List<DataRow> deletedRows = new List<DataRow>();
+                        DataTable dt_tmp = dt_source.Clone();
+                        List<string> needFix = new List<string>();
+                        foreach (DataRow row in dt_source.Rows)
                         {
-                            rowMapping.Add("" + row[2], new Dictionary<string, DataRow>());
+                            row[3] = (dsSchoolyear.ContainsKey("" + row[2])) ? "" + dsSchoolyear["" + row[2]] : "";
+                            if ("" + row[3] == "" && !needFix.Contains("" + row[2]))
+                            {
+                                needFix.Add("" + row[2]);
+                            }
+                            row[4] = dsHas1year.ContainsKey("" + row[2]) ? "" + dsHas1year["" + row[2]] : "";
+                            if (verysmart.Contains("" + row[2]))
+                                row[5] = 1;
+
+                            if (!rowMapping.ContainsKey("" + row[2]))
+                            {
+                                rowMapping.Add("" + row[2], new Dictionary<string, DataRow>());
+                            }
+                            if (!rowMapping["" + row[2]].ContainsKey("" + row[6]))
+                                rowMapping["" + row[2]].Add("" + row[6], row);
+                            //if (l[index] != "" + row[6]) //只取最後一筆(最新) , sql的left join已保證至少有一筆
+                            //{
+                            //    dt_tmp.Rows.RemoveAt(dt_tmp.Rows.Count - 1);
+                            //    dt_tmp.ImportRow(row);
+                            //    continue;
+                            //}
+                            //dt_tmp.ImportRow(row);
+                            //index++;
+                            //if (index >= l.Count)
+                            //    index = 0;
                         }
-                        if (!rowMapping["" + row[2]].ContainsKey("" + row[6]))
-                            rowMapping["" + row[2]].Add("" + row[6], row);
-                        //if (l[index] != "" + row[6]) //只取最後一筆(最新) , sql的left join已保證至少有一筆
-                        //{
-                        //    dt_tmp.Rows.RemoveAt(dt_tmp.Rows.Count - 1);
-                        //    dt_tmp.ImportRow(row);
-                        //    continue;
-                        //}
-                        //dt_tmp.ImportRow(row);
-                        //index++;
-                        //if (index >= l.Count)
-                        //    index = 0;
-                    }
-                    foreach (var ssn in needFix)
-                    {
-                        foreach (var key in l)
-                        {
-                            var row = rowMapping[ssn][key];
-                            dt_tmp.ImportRow(row);
-                        }
-                    }
-                    foreach (var ssn in rowMapping.Keys)
-                    {
-                        if (!needFix.Contains(ssn))
+                        foreach (var ssn in needFix)
                         {
                             foreach (var key in l)
                             {
                                 var row = rowMapping[ssn][key];
-                                row[13] = "";
-                                row[14] = "";
-                                row[15] = "";
                                 dt_tmp.ImportRow(row);
                             }
                         }
-                    }
-                    bkw.ReportProgress(80);
+                        foreach (var ssn in rowMapping.Keys)
+                        {
+                            if (!needFix.Contains(ssn))
+                            {
+                                foreach (var key in l)
+                                {
+                                    var row = rowMapping[ssn][key];
+                                    row[13] = "";
+                                    row[14] = "";
+                                    row[15] = "";
+                                    dt_tmp.ImportRow(row);
+                                }
+                            }
+                        }
+                        bkw.ReportProgress(80);
 
-                    CompletedXls("高雄區多元成績交換資料格式", dt_tmp, new Workbook());
-                    dt_tmp = _Q.Select(SqlString.IncentiveRecord);
+                        CompletedXls("高雄區多元成績交換資料格式", dt_tmp, new Workbook());
+                        dt_tmp = _Q.Select(SqlString.IncentiveRecord);
                         //DataTable newDt_tmp = new DataTable();
                         //foreach (DataRow dr in dt_tmp.Rows)
                         //{
@@ -175,7 +175,7 @@ namespace KH.DataExchange._103
 
                         //    newDt_tmp.ImportRow(newRow);
                         //}
-                    CompletedXls("高雄區多元成績-獎懲記錄交換資料格式", dt_tmp, new Workbook());
+                        CompletedXls("高雄區多元成績-獎懲記錄交換資料格式", dt_tmp, new Workbook());
                     }
                     catch (Exception ex)
                     {
@@ -203,7 +203,7 @@ namespace KH.DataExchange._103
             if (dt.Columns.Contains("科目") && dt.Columns.Contains("9下成績"))
             {
                 //List<string> avoids = new List<string>(new string[] { "藝術與人文", "健康與體育", "綜合活動" });
-                List<string> avoids = new List<string>(new string[] { "藝術", "健康與體育", "綜合活動","科技" });
+                List<string> avoids = new List<string>(new string[] { "藝術", "健康與體育", "綜合活動", "科技" });
                 foreach (DataRow row in dt.Rows)
                 {
                     string subject = row["科目"].ToString();
@@ -212,7 +212,27 @@ namespace KH.DataExchange._103
                         row["9下成績"] = "";
                 }
             }
+            if (dt.Columns.Contains("事由"))
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    string reason = row["事由"].ToString();
 
+                    row["事由"] = reason.Replace("\r", "").Replace("\n", "");
+                }
+            }
+
+            if (dt.Columns.Contains("事由類別"))
+            {
+                List<string> unAvoids = new List<string>(new string[] { "幹部", "競賽", "服務學習", "證照", "體適能" });
+                foreach (DataRow row in dt.Rows)
+                {
+                    string reasonType = row["事由類別"].ToString();
+
+                    if (!unAvoids.Contains(reasonType))
+                        row["事由類別"] = "";
+                }
+            }
             string reportName = inputReportName;
 
 
