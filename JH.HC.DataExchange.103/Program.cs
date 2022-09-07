@@ -57,6 +57,7 @@ namespace JH.HS.DataExchange._103
                     {
                         sids.Add("" + row[0]);
                     }
+                    //sids.Sort();
                     bkw.ReportProgress(20);
                     //List<AttendanceRecord> arl = K12.Data.Attendance.SelectByStudentIDs(sids);
                     var arl2 = K12.BusinessLogic.AutoSummary.Select(sids, null);
@@ -193,11 +194,20 @@ namespace JH.HS.DataExchange._103
                     try
                     {
                         foreach (string sid in sids)
-                        { 
+                        {
+                            int index = sids.IndexOf(sid);
                             string strqq = SqlString.Query1 + " and student.id="+sid;
-                            DataTable dtqq = _Q.Select(strqq);
-                            if (dtqq.Rows.Count > 0)
-                                dtTmp.ImportRow(dtqq.Rows[0]);
+                            try
+                            {
+                                DataTable dtqq = _Q.Select(strqq);
+                                if (dtqq.Rows.Count > 0)
+                                    dtTmp.ImportRow(dtqq.Rows[0]);
+                            }
+                            catch (Exception ex)
+                            {
+                                MsgBox.Show("學生系統編號："+sid+"，"+ex.Message);
+                            }
+
                         }
                   
                         
