@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -40,6 +37,9 @@
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.qaLb = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).BeginInit();
             this.groupPanel1.SuspendLayout();
@@ -49,6 +49,9 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
@@ -57,7 +60,6 @@
             this.key,
             this.StudentTag,
             this.note});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.Color.White;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -66,28 +68,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(564, 279);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
-            // 
-            // key
-            // 
-            this.key.HeaderText = "類型";
-            this.key.Name = "key";
-            this.key.ReadOnly = true;
-            this.key.Width = 200;
-            // 
-            // StudentTag
-            // 
-            this.StudentTag.HeaderText = "學生類別";
-            this.StudentTag.Name = "StudentTag";
-            this.StudentTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.StudentTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.StudentTag.Width = 340;
-            // 
-            // note
-            // 
-            this.note.HeaderText = "備註";
-            this.note.Name = "note";
-            this.note.Visible = false;
-            this.note.Width = 60;
             // 
             // btnExit
             // 
@@ -185,6 +165,9 @@
             // 
             // groupPanel1
             // 
+            this.groupPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupPanel1.BackColor = System.Drawing.Color.Transparent;
             this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
@@ -241,6 +224,7 @@
             // 
             // qaLb
             // 
+            this.qaLb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.qaLb.AutoSize = true;
             this.qaLb.BackColor = System.Drawing.Color.Transparent;
             this.qaLb.Location = new System.Drawing.Point(12, 374);
@@ -253,6 +237,7 @@
             // 
             // linkLabel2
             // 
+            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel2.Location = new System.Drawing.Point(130, 374);
@@ -263,6 +248,30 @@
             this.linkLabel2.Text = "108年度簡章規範";
             this.linkLabel2.Visible = false;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // key
+            // 
+            this.key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.key.HeaderText = "類型";
+            this.key.Name = "key";
+            this.key.ReadOnly = true;
+            this.key.Width = 200;
+            // 
+            // StudentTag
+            // 
+            this.StudentTag.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.StudentTag.HeaderText = "學生類別";
+            this.StudentTag.Name = "StudentTag";
+            this.StudentTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StudentTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // note
+            // 
+            this.note.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.note.HeaderText = "備註";
+            this.note.Name = "note";
+            this.note.Visible = false;
+            this.note.Width = 60;
             // 
             // Map
             // 
@@ -295,13 +304,13 @@
         private DevComponents.DotNetBar.ButtonX btnExit;
         private DevComponents.DotNetBar.ButtonX buttonX1;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn key;
-        private System.Windows.Forms.DataGridViewComboBoxColumn StudentTag;
-        private System.Windows.Forms.DataGridViewTextBoxColumn note;
         private DevComponents.Editors.DateTimeAdv.DateTimeInput dateTimeInput1;
         private DevComponents.DotNetBar.Controls.GroupPanel groupPanel1;
         private DevComponents.DotNetBar.LabelX labelX2;
         private System.Windows.Forms.LinkLabel qaLb;
         private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn key;
+        private System.Windows.Forms.DataGridViewComboBoxColumn StudentTag;
+        private System.Windows.Forms.DataGridViewTextBoxColumn note;
     }
 }
