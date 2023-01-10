@@ -32,7 +32,7 @@ namespace JH.TC.DataExchange._103
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
             button.Enable = FISCA.Permission.UserAcl.Current[UUID].Executable;
             bkw.WorkerReportsProgress = true;
-            bkw.ProgressChanged += delegate(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+            bkw.ProgressChanged += delegate (object sender, System.ComponentModel.ProgressChangedEventArgs e)
             {
                 string message = e.ProgressPercentage == 100 ? "計算完成" : "計算中...";
                 FISCA.Presentation.MotherForm.SetStatusBarMessage(ReportName + message, e.ProgressPercentage);
@@ -42,7 +42,7 @@ namespace JH.TC.DataExchange._103
                 button.Enable = FISCA.Permission.UserAcl.Current[UUID].Executable;
                 if (error != null) throw new Exception(ReportName, error);
             };
-            bkw.DoWork += delegate(object sender, DoWorkEventArgs e)
+            bkw.DoWork += delegate (object sender, DoWorkEventArgs e)
             {
                 try
                 {
@@ -89,14 +89,14 @@ namespace JH.TC.DataExchange._103
                         if (ar.RefStudentID == "-1") continue;
                         int arGrade = 0;
                         #region match GradeYear
-                       
-                            if (dSShr != null && ar.Student !=null && ar.Student.ID != null)
-                                if (dSShr.ContainsKey(ar.Student.ID))
-                                    foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
-                                    {
-                                        if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
-                                            arGrade = item.GradeYear;
-                                    }                   
+
+                        if (dSShr != null && ar.Student != null && ar.Student.ID != null)
+                            if (dSShr.ContainsKey(ar.Student.ID))
+                                foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
+                                {
+                                    if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
+                                        arGrade = item.GradeYear;
+                                }
 
                         #endregion
                         foreach (var ap in ar.AbsenceCounts)
@@ -179,7 +179,7 @@ namespace JH.TC.DataExchange._103
                     Dictionary<string, List<string>> dlMaps = new Dictionary<string, List<string>>();
                     foreach (MapRecord mr in mrl)
                     {
-                        if (Map.SpecialList.Contains(mr.key))
+                        if (Map.StatusList.Contains(mr.key)|| Map.SignUpStatusList.Contains(mr.key)|| Map.HandicappedList.Contains(mr.key)|| Map.OtherList.Contains(mr.key))
                         {
                             if (!dlMaps.ContainsKey(mr.value))
                                 dlMaps.Add(mr.value, new List<string>());
@@ -230,7 +230,7 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("市內電話分機");
                     dt.Columns.Add("行動電話");
                     dt.Columns.Add("郵遞區號");
-                    dt.Columns.Add("通訊地址");                    
+                    dt.Columns.Add("通訊地址");
                     dt.Columns.Add("就近入學", typeof(int));
                     dt.Columns.Add("偏遠地區", typeof(int));
                     dt.Columns.Add("健康與體育", typeof(int));
@@ -292,7 +292,7 @@ namespace JH.TC.DataExchange._103
                             }
                         }
                         row["學生身分"] = (strtmp == "" ? "0" : strtmp);
-                        
+
                         strtmp = "";
                         foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
                              {"一般生","0"},
@@ -315,7 +315,7 @@ namespace JH.TC.DataExchange._103
 {"僑生","H"}})
                         {
                             if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
-                            {                              
+                            {
                                 strtmp += item.Value;
                                 break;
                             }
@@ -366,11 +366,11 @@ namespace JH.TC.DataExchange._103
 
 
                         row["郵遞區號"] = zipCode;//26
-                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("["+ zipCode + "]", "") : "";//27
-                        //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
-                         //// 處理特殊生加分百分比
-                        // foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
-                             
+                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[" + zipCode + "]", "") : "";//27
+                                                                                                                            //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
+                                                                                                                            //// 處理特殊生加分百分比
+                                                                                                                            // foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
+
                         // }
 
                         //row["特殊生加分百分比"] = "";

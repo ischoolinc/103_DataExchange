@@ -66,7 +66,7 @@
             this.dataGridViewX1.Name = "dataGridViewX1";
             this.dataGridViewX1.RowHeadersVisible = false;
             this.dataGridViewX1.RowTemplate.Height = 24;
-            this.dataGridViewX1.Size = new System.Drawing.Size(527, 316);
+            this.dataGridViewX1.Size = new System.Drawing.Size(710, 316);
             this.dataGridViewX1.TabIndex = 0;
             // 
             // Column1
@@ -96,7 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(551, 345);
+            this.ClientSize = new System.Drawing.Size(734, 345);
             this.Controls.Add(this.dataGridViewX1);
             this.DoubleBuffered = true;
             this.Name = "QAForm";

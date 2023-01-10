@@ -20,7 +20,7 @@ namespace JH.HS.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            string ReportName = "111(竹苗區免試)學生匯入資料";
+            string ReportName = "(竹苗區免試)學生匯入資料";
             string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
 
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
@@ -256,7 +256,7 @@ namespace JH.HS.DataExchange._103
 
                     foreach (MapRecord mr in mrl)
                     {
-                        if (Map.SpecialList.Contains(mr.key))
+                        if (Map.StatusList.Contains(mr.key) || Map.SignUpStatusList.Contains(mr.key) || Map.HandicappedList.Contains(mr.key) || Map.OtherList.Contains(mr.key))
                         {
                             // 解析類別對照
                             foreach (string sKey in studNameTag.Keys)
