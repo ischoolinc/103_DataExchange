@@ -17,6 +17,11 @@ namespace JH.HS.DataExchange._103
 
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
         private List<MapRecord> _MapRecords = new List<MapRecord>();
+
+        public string date { get; set; }
+        ConfigRecord _confRec;
+        List<ConfigRecord> _confRecList = new List<ConfigRecord>();
+
         //public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙", "自閉症", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "就近入學" };
         public static List<string> SpecialList = new List<string>() { "身障生", "原住民(有認證)", "原住民(無認證)", "蒙藏生", "外派子女25%", "外派子女15%", "外派子女10%", "退伍軍人25%", "退伍軍人20%", "退伍軍人15%", "退伍軍人10%", "退伍軍人5%", "退伍軍人3%", "優秀子女25%", "優秀子女15%", "優秀子女10%", "僑生", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "就近入學", "扶助弱勢", "偏遠鄉鎮國中生", "本土語言認證", "本土語言認證證書:原住民族語", "本土語言認證證書:客語", "本土語言認證證書:閩南語" };
 
@@ -30,7 +35,7 @@ namespace JH.HS.DataExchange._103
         public static List<string> HandicappedList = new List<string>() { "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "腦性麻痺", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙", "自閉症", "發展遲緩", "其他障礙", };
 
         //其他
-        public static List<string> OtherList = new List<string>() { "低收入戶", "中低收入戶", "失業勞工子女", "就近入學", "扶助弱勢", "偏遠鄉鎮國中生" };
+        public static List<string> OtherList = new List<string>() { "低收入戶", "中低收入戶", "直系血親尊親屬支領失業給付者", "就近入學", "扶助弱勢", "偏遠鄉鎮國中生" };
 
 
 
@@ -85,6 +90,34 @@ namespace JH.HS.DataExchange._103
                 StudentTag3.Items.Add(name);
                 StudentTag4.Items.Add(name);
             }
+
+            _confRecList = _AccessHelper.Select<ConfigRecord>();
+
+            if (_confRecList.Count == 0)
+            {
+                ConfigRecord rec = new ConfigRecord();
+                rec.Name = "採計截止日期";
+                rec.Value = DateTime.Now.ToShortDateString();
+                _confRecList.Add(rec);
+                _confRecList.SaveAll();
+            }
+
+            foreach (ConfigRecord rec in _confRecList)
+            {
+                if (rec.Name == "採計截止日期")
+                    _confRec = rec;
+            }
+
+            if (_confRec != null)
+            {
+                DateTime dt;
+
+                if (DateTime.TryParse(_confRec.Value, out dt))
+                {
+                    dateTimeInput1.Value = dt;
+                }
+            }
+
 
             _MapRecords = _AccessHelper.Select<MapRecord>();
             DataGridViewRow row;
@@ -205,6 +238,19 @@ namespace JH.HS.DataExchange._103
         }
         private void buttonX1_Click(object sender, EventArgs e)
         {
+            date = dateTimeInput1.Value.ToString("yyyy/MM/dd");
+
+            // 回存截止日期
+            if (_confRec == null)
+            {
+                _confRec = new ConfigRecord();
+                _confRec.Name = "採計截止日期";
+            }
+
+            _confRec.Value = date;
+            _confRec.Save();
+
+
             _AccessHelper.DeletedValues(_MapRecords);
             _MapRecords.Clear();
             MapRecord mr;
@@ -274,6 +320,11 @@ namespace JH.HS.DataExchange._103
         private void Map_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void qaLb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            (new QAForm()).ShowDialog();
         }
     }
 }

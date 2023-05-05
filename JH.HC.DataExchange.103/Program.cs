@@ -20,6 +20,7 @@ namespace JH.HS.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
+            string _date = "";
             string ReportName = "(竹苗區免試)學生匯入資料";
             string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
 
@@ -196,7 +197,8 @@ namespace JH.HS.DataExchange._103
                         foreach (string sid in sids)
                         {
                             int index = sids.IndexOf(sid);
-                            string strqq = SqlString.Query1 + " and student.id="+sid;
+                            //string strqq = SqlString.Query1 + " and student.id="+sid;
+                            string strqq = SqlString.Query(_date,sid);
                             try
                             {
                                 DataTable dtqq = _Q.Select(strqq);
@@ -317,14 +319,14 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("就學區");
                     dt.Columns.Add("低收入戶");
                     dt.Columns.Add("中低收入戶");
-                    dt.Columns.Add("失業勞工子女");
+                    dt.Columns.Add("直系血親尊親屬支領失業給付者");
                     dt.Columns.Add("資料授權");
                     dt.Columns.Add("家長姓名");
                     dt.Columns.Add("市內電話");
                     dt.Columns.Add("市內電話分機");
                     dt.Columns.Add("行動電話");
                     dt.Columns.Add("郵遞區號");
-                    dt.Columns.Add("通訊地址");
+                    dt.Columns.Add("聯絡地址");
                     dt.Columns.Add("偏遠鄉鎮國中生");
                     dt.Columns.Add("扶助弱勢");
                     dt.Columns.Add("就近入學");
@@ -350,7 +352,7 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("服務學習時數_九上");
                     dt.Columns.Add("本土語言認證");
                     dt.Columns.Add("本土語言認證證書");
-                    dt.Columns.Add("學生電子郵件(E-mail) ");
+                    dt.Columns.Add("學生電子郵件(Email)");
                     #endregion
                     int seq = 1;
                     foreach (custStudentRecord csr in csrl)
@@ -431,7 +433,7 @@ namespace JH.HS.DataExchange._103
                         row["就學區"] = "";//19
                         row["低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "低收入戶") ? "1" : "0";//20
                         row["中低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "中低收入戶") ? "1" : "0";//21
-                        row["失業勞工子女"] = ddSMaps.ContainsKey(csr.ID + delimiter + "失業勞工子女") ? "1" : "0";//22
+                        row["直系血親尊親屬支領失業給付者"] = ddSMaps.ContainsKey(csr.ID + delimiter + "直系血親尊親屬支領失業給付者") ? "1" : "0";//22
 
                         row["資料授權"] = "";//23
                         row["家長姓名"] = csr.CustodianName;//24
@@ -446,7 +448,7 @@ namespace JH.HS.DataExchange._103
                         else if (!string.IsNullOrWhiteSpace(csr.PermanentAddress))
                             address = csr.PermanentAddress.Replace("[]", "");
 
-                        row["通訊地址"] = address;//29
+                        row["聯絡地址"] = address;//29
                         //row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
                         //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
 
@@ -539,8 +541,10 @@ namespace JH.HS.DataExchange._103
             };
             button.Click += delegate
             {
-                if (new Map().ShowDialog() == DialogResult.OK && !bkw.IsBusy)
+                Map map = new Map();
+                if (map.ShowDialog() == DialogResult.OK && !bkw.IsBusy)
                 {
+                    _date = map.date;
                     button.Enable = false;
                     bkw.RunWorkerAsync();
                 }
@@ -560,7 +564,8 @@ namespace JH.HS.DataExchange._103
             Workbook wb = inputXls;
 
             wb.Worksheets[0].Cells.ImportDataTable(dt, true, "A1");
-            wb.Worksheets[0].Name = inputReportName;
+            //wb.Worksheets[0].Name = inputReportName;
+            wb.Worksheets[0].Name = "Student";
             wb.Worksheets[0].AutoFitColumns();
             if (File.Exists(path))
             {

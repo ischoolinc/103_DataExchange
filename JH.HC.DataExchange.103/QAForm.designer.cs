@@ -66,7 +66,7 @@
             this.dataGridViewX1.Name = "dataGridViewX1";
             this.dataGridViewX1.RowHeadersVisible = false;
             this.dataGridViewX1.RowTemplate.Height = 24;
-            this.dataGridViewX1.Size = new System.Drawing.Size(710, 406);
+            this.dataGridViewX1.Size = new System.Drawing.Size(790, 331);
             this.dataGridViewX1.TabIndex = 0;
             // 
             // Column1
@@ -75,6 +75,7 @@
             this.Column1.HeaderText = "項目";
             this.Column1.Name = "Column1";
             this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column1.Width = 120;
             // 
             // Column2
             // 
@@ -89,13 +90,13 @@
             this.Column3.HeaderText = "上限";
             this.Column3.Name = "Column3";
             this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column3.Width = 80;
+            this.Column3.Width = 200;
             // 
             // QAForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 435);
+            this.ClientSize = new System.Drawing.Size(814, 360);
             this.Controls.Add(this.dataGridViewX1);
             this.DoubleBuffered = true;
             this.Name = "QAForm";

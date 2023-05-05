@@ -52,6 +52,9 @@
             this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.qaLb = new System.Windows.Forms.LinkLabel();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.dateTimeInput1 = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
             this.groupPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOther)).BeginInit();
             this.groupPanel3.SuspendLayout();
@@ -60,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvSignUpStatus)).BeginInit();
             this.groupPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnExit
@@ -68,7 +72,7 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(1038, 570);
+            this.btnExit.Location = new System.Drawing.Point(1038, 597);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -82,7 +86,7 @@
             this.buttonX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonX1.BackColor = System.Drawing.Color.Transparent;
             this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX1.Location = new System.Drawing.Point(957, 570);
+            this.buttonX1.Location = new System.Drawing.Point(957, 597);
             this.buttonX1.Name = "buttonX1";
             this.buttonX1.Size = new System.Drawing.Size(75, 23);
             this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -95,7 +99,7 @@
             this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Location = new System.Drawing.Point(12, 572);
+            this.linkLabel1.Location = new System.Drawing.Point(133, 603);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(60, 17);
             this.linkLabel1.TabIndex = 33;
@@ -108,7 +112,7 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(102, 572);
+            this.label1.Location = new System.Drawing.Point(199, 603);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(185, 17);
             this.label1.TabIndex = 34;
@@ -122,7 +126,7 @@
             this.groupPanel4.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel4.Controls.Add(this.dgvOther);
-            this.groupPanel4.Location = new System.Drawing.Point(564, 12);
+            this.groupPanel4.Location = new System.Drawing.Point(567, 42);
             this.groupPanel4.Name = "groupPanel4";
             this.groupPanel4.Size = new System.Drawing.Size(546, 203);
             // 
@@ -212,9 +216,9 @@
             this.groupPanel3.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel3.Controls.Add(this.dgvHandicapped);
-            this.groupPanel3.Location = new System.Drawing.Point(564, 221);
+            this.groupPanel3.Location = new System.Drawing.Point(564, 251);
             this.groupPanel3.Name = "groupPanel3";
-            this.groupPanel3.Size = new System.Drawing.Size(546, 333);
+            this.groupPanel3.Size = new System.Drawing.Size(546, 330);
             // 
             // 
             // 
@@ -266,7 +270,7 @@
             this.dgvHandicapped.Name = "dgvHandicapped";
             this.dgvHandicapped.RowHeadersVisible = false;
             this.dgvHandicapped.RowTemplate.Height = 24;
-            this.dgvHandicapped.Size = new System.Drawing.Size(540, 306);
+            this.dgvHandicapped.Size = new System.Drawing.Size(540, 303);
             this.dgvHandicapped.TabIndex = 0;
             // 
             // key3
@@ -301,9 +305,9 @@
             this.groupPanel2.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel2.Controls.Add(this.dgvSignUpStatus);
-            this.groupPanel2.Location = new System.Drawing.Point(12, 221);
+            this.groupPanel2.Location = new System.Drawing.Point(12, 251);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(546, 333);
+            this.groupPanel2.Size = new System.Drawing.Size(546, 330);
             // 
             // 
             // 
@@ -355,7 +359,7 @@
             this.dgvSignUpStatus.Name = "dgvSignUpStatus";
             this.dgvSignUpStatus.RowHeadersVisible = false;
             this.dgvSignUpStatus.RowTemplate.Height = 24;
-            this.dgvSignUpStatus.Size = new System.Drawing.Size(540, 306);
+            this.dgvSignUpStatus.Size = new System.Drawing.Size(540, 303);
             this.dgvSignUpStatus.TabIndex = 0;
             // 
             // key2
@@ -388,7 +392,7 @@
             this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel1.Controls.Add(this.dgvStatus);
-            this.groupPanel1.Location = new System.Drawing.Point(12, 12);
+            this.groupPanel1.Location = new System.Drawing.Point(15, 42);
             this.groupPanel1.Name = "groupPanel1";
             this.groupPanel1.Size = new System.Drawing.Size(546, 203);
             // 
@@ -469,11 +473,94 @@
             this.note.Visible = false;
             this.note.Width = 60;
             // 
+            // qaLb
+            // 
+            this.qaLb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.qaLb.AutoSize = true;
+            this.qaLb.BackColor = System.Drawing.Color.Transparent;
+            this.qaLb.Location = new System.Drawing.Point(15, 603);
+            this.qaLb.Name = "qaLb";
+            this.qaLb.Size = new System.Drawing.Size(112, 17);
+            this.qaLb.TabIndex = 47;
+            this.qaLb.TabStop = true;
+            this.qaLb.Text = "系統積分計算規則";
+            this.qaLb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.qaLb_LinkClicked);
+            // 
+            // labelX2
+            // 
+            this.labelX2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.Class = "";
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Location = new System.Drawing.Point(18, 12);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(248, 23);
+            this.labelX2.TabIndex = 49;
+            this.labelX2.Text = "服務學習、獎懲紀錄，積分採計截止日期";
+            // 
+            // dateTimeInput1
+            // 
+            this.dateTimeInput1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.dateTimeInput1.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.dateTimeInput1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.dateTimeInput1.ButtonDropDown.Shortcut = DevComponents.DotNetBar.eShortcut.AltDown;
+            this.dateTimeInput1.ButtonDropDown.Visible = true;
+            this.dateTimeInput1.IsPopupCalendarOpen = false;
+            this.dateTimeInput1.Location = new System.Drawing.Point(272, 11);
+            // 
+            // 
+            // 
+            this.dateTimeInput1.MonthCalendar.AnnuallyMarkedDates = new System.DateTime[0];
+            // 
+            // 
+            // 
+            this.dateTimeInput1.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
+            this.dateTimeInput1.MonthCalendar.BackgroundStyle.Class = "";
+            this.dateTimeInput1.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.dateTimeInput1.MonthCalendar.ClearButtonVisible = true;
+            // 
+            // 
+            // 
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground2;
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.BackColorGradientAngle = 90;
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground;
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder;
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1;
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.Class = "";
+            this.dateTimeInput1.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.dateTimeInput1.MonthCalendar.DisplayMonth = new System.DateTime(2018, 5, 1, 0, 0, 0, 0);
+            this.dateTimeInput1.MonthCalendar.MarkedDates = new System.DateTime[0];
+            this.dateTimeInput1.MonthCalendar.MonthlyMarkedDates = new System.DateTime[0];
+            // 
+            // 
+            // 
+            this.dateTimeInput1.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.dateTimeInput1.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90;
+            this.dateTimeInput1.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.dateTimeInput1.MonthCalendar.NavigationBackgroundStyle.Class = "";
+            this.dateTimeInput1.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.dateTimeInput1.MonthCalendar.TodayButtonVisible = true;
+            this.dateTimeInput1.MonthCalendar.WeeklyMarkedDays = new System.DayOfWeek[0];
+            this.dateTimeInput1.Name = "dateTimeInput1";
+            this.dateTimeInput1.Size = new System.Drawing.Size(154, 25);
+            this.dateTimeInput1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.dateTimeInput1.TabIndex = 48;
+            this.dateTimeInput1.Value = new System.DateTime(2019, 4, 30, 0, 0, 0, 0);
+            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 603);
+            this.ClientSize = new System.Drawing.Size(1125, 630);
+            this.Controls.Add(this.labelX2);
+            this.Controls.Add(this.dateTimeInput1);
+            this.Controls.Add(this.qaLb);
             this.Controls.Add(this.groupPanel4);
             this.Controls.Add(this.groupPanel3);
             this.Controls.Add(this.groupPanel2);
@@ -494,6 +581,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvSignUpStatus)).EndInit();
             this.groupPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -524,5 +612,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn key;
         private System.Windows.Forms.DataGridViewComboBoxColumn StudentTag;
         private System.Windows.Forms.DataGridViewTextBoxColumn note;
+        private System.Windows.Forms.LinkLabel qaLb;
+        private DevComponents.DotNetBar.LabelX labelX2;
+        private DevComponents.Editors.DateTimeAdv.DateTimeInput dateTimeInput1;
     }
 }

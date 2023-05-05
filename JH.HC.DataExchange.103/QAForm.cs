@@ -22,21 +22,21 @@ namespace JH.HS.DataExchange._103
             dgvrow1.CreateCells(dataGridViewX1);
             dgvrow1.Cells[0].Value = "扶助弱勢";
             dgvrow1.Cells[1].Value = "系統類別欄位、有標籤者符合。扶助弱勢標籤+偏遠鄉鎮國中生符合者( 5 分 )，扶助弱勢標籤符合者( 3 分 )。";
-            dgvrow1.Cells[2].Value = "扶助弱勢/就近入學/均衡學習,合併上限( 30 分 )";
+            dgvrow1.Cells[2].Value = "扶助弱勢/就近入學/均衡學習，合併上限( 30 分 )";
             dataGridViewX1.Rows.Add(dgvrow1);
 
             DataGridViewRow dgvrow2 = new DataGridViewRow();
             dgvrow2.CreateCells(dataGridViewX1);
             dgvrow2.Cells[0].Value = "就近入學";
             dgvrow2.Cells[1].Value = "系統類別欄位、有標籤者符合。就近入學標籤符合者( 5 分 )。";
-            dgvrow2.Cells[2].Value = "扶助弱勢/就近入學/均衡學習,合併上限( 30 分 )";
+            dgvrow2.Cells[2].Value = "扶助弱勢/就近入學/均衡學習，合併上限( 30 分 )";
             dataGridViewX1.Rows.Add(dgvrow2);
 
             DataGridViewRow dgvrow3 = new DataGridViewRow();
             dgvrow3.CreateCells(dataGridViewX1);
             dgvrow3.Cells[0].Value = "均衡學習";
             dgvrow3.Cells[1].Value = @"以健體、藝術及綜合三項領域採計之各學期加總平均成績達及格者換算，3 領域皆符合( 15 分)，2 領域皆符合( 10 分)，1 領域皆符合 (5 分)";
-            dgvrow3.Cells[2].Value = "扶助弱勢/就近入學/均衡學習,合併上限( 30 分 )";
+            dgvrow3.Cells[2].Value = "扶助弱勢/就近入學/均衡學習，合併上限( 30 分 )";
             dataGridViewX1.Rows.Add(dgvrow3);
 
             DataGridViewRow dgvrow4 = new DataGridViewRow();
@@ -56,7 +56,7 @@ namespace JH.HS.DataExchange._103
             DataGridViewRow dgvrow6 = new DataGridViewRow();
             dgvrow6.CreateCells(dataGridViewX1);
             dgvrow6.Cells[0].Value = "本土語言認證";
-            dgvrow6.Cells[1].Value = "系統的類別欄位、有標籤者符合。。本土語言認證標籤符合者( 2 分 )。";
+            dgvrow6.Cells[1].Value = "系統的類別欄位、有標籤者符合。本土語言認證標籤符合者( 2 分 )。";
             dgvrow6.Cells[2].Value = "2分";
             dataGridViewX1.Rows.Add(dgvrow6);
 
