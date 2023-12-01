@@ -50,10 +50,10 @@ WITH target_datetime AS(
 ) ,target_sems_score AS(
     SELECT
         sss.ref_student_id 
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 健康與體育
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 藝術
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 綜合活動
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 科技   
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 健康與體育
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 藝術
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 綜合活動
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 科技   
     FROM
         target_student
         LEFT OUTER JOIN (
