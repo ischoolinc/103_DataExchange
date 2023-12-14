@@ -32,7 +32,7 @@ namespace JH.HS.DataExchange._103
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
             button.Enable = FISCA.Permission.UserAcl.Current[UUID].Executable;
             bkw.WorkerReportsProgress = true;
-            bkw.ProgressChanged += delegate(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+            bkw.ProgressChanged += delegate (object sender, System.ComponentModel.ProgressChangedEventArgs e)
             {
                 string message = e.ProgressPercentage == 100 ? "計算完成" : "計算中...";
                 FISCA.Presentation.MotherForm.SetStatusBarMessage(ReportName + message, e.ProgressPercentage);
@@ -42,14 +42,14 @@ namespace JH.HS.DataExchange._103
                 button.Enable = FISCA.Permission.UserAcl.Current[UUID].Executable;
                 if (error != null) throw new Exception(ReportName, error);
             };
-            bkw.DoWork += delegate(object sender, DoWorkEventArgs e)
+            bkw.DoWork += delegate (object sender, DoWorkEventArgs e)
             {
                 try
                 {
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     AccessHelper _A = new AccessHelper();
-                    DataTable dt = new DataTable(), tmp;                    
+                    DataTable dt = new DataTable(), tmp;
                     #region 取得及整理資料
                     tmp = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (3, 9)");
                     List<string> sids = new List<string>();
@@ -71,7 +71,7 @@ namespace JH.HS.DataExchange._103
                                     "LEFT JOIN class ON student.ref_class_id = class.id " +
                                     "LEFT JOIN dept ON dept.id = class.ref_dept_id " +
                                     "WHERE student.id IN (" + string.Join(",", sids) + ")" +
-                                    "ORDER BY class.display_order, class.class_name, seat_no");                 
+                                    "ORDER BY class.display_order, class.class_name, seat_no");
 
                     foreach (DataRow row in tmp.Rows)
                     {
@@ -90,7 +90,7 @@ namespace JH.HS.DataExchange._103
                         try
                         {
                             #region match GradeYear
-                            if (dSShr != null && ar.Student !=null && ar.Student.ID !=null)
+                            if (dSShr != null && ar.Student != null && ar.Student.ID != null)
                                 if (dSShr.ContainsKey(ar.Student.ID))
                                     foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
                                     {
@@ -100,8 +100,8 @@ namespace JH.HS.DataExchange._103
 
                         }
                         catch (Exception exx)
-                        { 
-                        
+                        {
+
                         }
                         #endregion
                         foreach (var ap in ar.AbsenceCounts)
@@ -173,9 +173,10 @@ namespace JH.HS.DataExchange._103
                     // 分批處理，因為一次會認成德高中國中部爆
                     List<string> colNameList = new List<string>();
                     colNameList.Add("id");
-                    colNameList.Add("健康與體育");
+                    colNameList.Add("健體");
                     colNameList.Add("藝術");
-                    colNameList.Add("綜合活動");
+                    colNameList.Add("綜合");
+                    colNameList.Add("科技");
                     colNameList.Add("大功支數");
                     colNameList.Add("小功支數");
                     colNameList.Add("嘉獎支數");
@@ -198,7 +199,14 @@ namespace JH.HS.DataExchange._103
                         {
                             int index = sids.IndexOf(sid);
                             //string strqq = SqlString.Query1 + " and student.id="+sid;
-                            string strqq = SqlString.Query(_date,sid);
+                            string strqq = SqlString.Query(_date, sid);
+
+                            //// debug
+                            //using (StreamWriter sw = new StreamWriter(Application.StartupPath + "\\debug.txt", true))
+                            //{
+                            //    sw.WriteLine(strqq);
+                            //}
+
                             try
                             {
                                 DataTable dtqq = _Q.Select(strqq);
@@ -207,20 +215,20 @@ namespace JH.HS.DataExchange._103
                             }
                             catch (Exception ex)
                             {
-                                MsgBox.Show("學生系統編號："+sid+"，"+ex.Message);
+                                MsgBox.Show("學生系統編號：" + sid + "，" + ex.Message);
                             }
 
                         }
-                  
-                        
+
+
                     }
                     catch (Exception ex)
-                    { 
-                    
-                    }                   
-            
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
                     Dictionary<string, DataRow> dSGrade = new Dictionary<string, DataRow>();
-                    
+
                     foreach (DataRow row in dtTmp.Rows)
                     {
                         dSGrade.Add("" + row[0], row);
@@ -241,7 +249,7 @@ namespace JH.HS.DataExchange._103
                             if (!studNameTag.ContainsKey(item.Name))
                                 studNameTag.Add(item.Name, new List<string>());
 
-                            studNameTag[item.Name].Add(item.Name);                     
+                            studNameTag[item.Name].Add(item.Name);
                         }
                         else
                         {
@@ -280,9 +288,11 @@ namespace JH.HS.DataExchange._103
                                 if (!dlMaps.ContainsKey(mr.value))
                                     dlMaps.Add(mr.value, new List<string>());
                                 dlMaps[mr.value].Add(mr.key);
-                            }                            
+                            }
                         }
                     }
+
+
                     Dictionary<string, int> ddSMaps = new Dictionary<string, int>();
                     foreach (StudentTagRecord str in strl)
                     {
@@ -330,9 +340,10 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("偏遠鄉鎮國中生");
                     dt.Columns.Add("扶助弱勢");
                     dt.Columns.Add("就近入學");
-                    dt.Columns.Add("健康與體育");
+                    dt.Columns.Add("健體");
                     dt.Columns.Add("藝術");
-                    dt.Columns.Add("綜合活動");
+                    dt.Columns.Add("綜合");
+                    dt.Columns.Add("科技");
                     dt.Columns.Add("國一上曠課紀錄");
                     dt.Columns.Add("國一下曠課紀錄");
                     dt.Columns.Add("國二上曠課紀錄");
@@ -354,6 +365,9 @@ namespace JH.HS.DataExchange._103
                     dt.Columns.Add("本土語言認證證書");
                     dt.Columns.Add("學生電子郵件(Email)");
                     #endregion
+
+                    // 處理父母姓名使用
+                    List<string> FMNameList = new List<string>();
                     int seq = 1;
                     foreach (custStudentRecord csr in csrl)
                     {
@@ -364,7 +378,7 @@ namespace JH.HS.DataExchange._103
                         row["序號"] = seq;//3
                         row["學號"] = csr.StudentNumber;//4
                         row["班級"] = csr.ClassName;//5
-                        row["座號"] = csr.SeatNo.HasValue?string.Format("{0:00}",csr.SeatNo.Value):"";//6
+                        row["座號"] = csr.SeatNo.HasValue ? string.Format("{0:00}", csr.SeatNo.Value) : "";//6
                         row["學生姓名"] = csr.Name;//7
                         row["身分證統一編號"] = csr.IDNumber;//8
                         row["非中華民國身分證號"] = "";//9
@@ -436,7 +450,21 @@ namespace JH.HS.DataExchange._103
                         row["直系血親尊親屬支領失業給付者"] = ddSMaps.ContainsKey(csr.ID + delimiter + "直系血親尊親屬支領失業給付者") ? "1" : "0";//22
 
                         row["資料授權"] = "";//23
-                        row["家長姓名"] = csr.CustodianName;//24
+
+                        // 2023/12/14 免試調整
+                        // 調整成先判斷父親、母親都有值，且存就填入：父親姓名、母親姓名，只要父母其中一位沒有就填入監護人姓名。
+                        FMNameList.Clear();
+                        if (!string.IsNullOrWhiteSpace(csr.FatherName) && csr.FatherLiving == "存")
+                            FMNameList.Add(csr.FatherName);
+
+                        if (!string.IsNullOrWhiteSpace(csr.MotherName) && csr.MotherLiving == "存")
+                            FMNameList.Add(csr.MotherName);
+
+                        if (FMNameList.Count > 1)
+                            row["家長姓名"] = string.Join("、", FMNameList.ToArray());//24
+                        else
+                            row["家長姓名"] = csr.CustodianName;//24
+
                         row["市內電話"] = csr.ContactPhone != null ? csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
                         row["市內電話分機"] = ""; //26
                         row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//27
@@ -456,7 +484,7 @@ namespace JH.HS.DataExchange._103
                         //row["特殊生加分百分比"] = "";//29
                         row["扶助弱勢"] = ddSMaps.ContainsKey(csr.ID + delimiter + "扶助弱勢") ? 5 : 0;// null;//31
                         row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? 5 : 0;//32
-                        
+
                         //row["國一上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "11") || dSGsA.ContainsKey(csr.ID + delimiter + "71") ? "有紀錄" : "無紀錄";//35
                         //row["國一下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "12") || dSGsA.ContainsKey(csr.ID + delimiter + "72") ? "有紀錄" : "無紀錄";//36
                         //row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有紀錄" : "無紀錄";//35
@@ -482,33 +510,36 @@ namespace JH.HS.DataExchange._103
 
                         if (dSGrade.ContainsKey(csr.ID))
                         {
-                            row["健康與體育"] = dSGrade[csr.ID][1];//32
-                            row["藝術"] = dSGrade[csr.ID][2];//33
-                            row["綜合活動"] = dSGrade[csr.ID][3];//34
+                            row["健體"] = dSGrade[csr.ID]["健體"];//32
+                            row["藝術"] = dSGrade[csr.ID]["藝術"];//33
+                            row["綜合"] = dSGrade[csr.ID]["綜合"];//34
+                            row["科技"] = dSGrade[csr.ID]["科技"];//35
 
-                            if (dSGrade[csr.ID][4] != null && dSGrade[csr.ID][4].ToString()!="")
-                                row["大功支數"] = dSGrade[csr.ID][4];//39
+                            if (dSGrade[csr.ID]["大功支數"] != null && dSGrade[csr.ID]["大功支數"].ToString() != "")
+                                row["大功支數"] = dSGrade[csr.ID]["大功支數"];//42
 
-                            if (dSGrade[csr.ID][5] != null && dSGrade[csr.ID][5].ToString() != "")
-                                row["小功支數"] = dSGrade[csr.ID][5];//40
+                            if (dSGrade[csr.ID]["小功支數"] != null && dSGrade[csr.ID]["小功支數"].ToString() != "")
+                                row["小功支數"] = dSGrade[csr.ID]["小功支數"];//43
 
-                            if (dSGrade[csr.ID][6] != null && dSGrade[csr.ID][6].ToString() != "")
-                                row["嘉獎支數"] = dSGrade[csr.ID][6];//41
+                            if (dSGrade[csr.ID]["嘉獎支數"] != null && dSGrade[csr.ID]["嘉獎支數"].ToString() != "")
+                                row["嘉獎支數"] = dSGrade[csr.ID]["嘉獎支數"];//44
 
-                            if (dSGrade[csr.ID][7] != null && dSGrade[csr.ID][7].ToString() != "")
-                                row["大過支數"] = dSGrade[csr.ID][7];//42
+                            if (dSGrade[csr.ID]["大過支數"] != null && dSGrade[csr.ID]["大過支數"].ToString() != "")
+                                row["大過支數"] = dSGrade[csr.ID]["大過支數"];//45
 
-                            if (dSGrade[csr.ID][8] != null && dSGrade[csr.ID][8].ToString() != "")
-                                row["小過支數"] = dSGrade[csr.ID][8];//43
+                            if (dSGrade[csr.ID]["小過支數"] != null && dSGrade[csr.ID]["小過支數"].ToString() != "")
+                                row["小過支數"] = dSGrade[csr.ID]["小過支數"];//46
 
-                            if (dSGrade[csr.ID][9] != null && dSGrade[csr.ID][9].ToString() != "")
-                                row["警告支數"] = dSGrade[csr.ID][9];//44
+                            if (dSGrade[csr.ID]["警告支數"] != null && dSGrade[csr.ID]["警告支數"].ToString() != "")
+                                row["警告支數"] = dSGrade[csr.ID]["警告支數"];//47
 
-                            row["服務學習時數_七上"] = dSGrade[csr.ID][10];//45
-                            row["服務學習時數_七下"] = dSGrade[csr.ID][11];//46
-                            row["服務學習時數_八上"] = dSGrade[csr.ID][12];//45
-                            row["服務學習時數_八下"] = dSGrade[csr.ID][13];//46
-                            row["服務學習時數_九上"] = dSGrade[csr.ID][14];//47
+                            row["服務學習時數_七上"] = dSGrade[csr.ID]["服務學習時數_七上"];//48
+                            row["服務學習時數_七下"] = dSGrade[csr.ID]["服務學習時數_七下"];//49
+                            row["服務學習時數_八上"] = dSGrade[csr.ID]["服務學習時數_八上"];//50
+                            row["服務學習時數_八下"] = dSGrade[csr.ID]["服務學習時數_八下"];//51
+                            row["服務學習時數_九上"] = dSGrade[csr.ID]["服務學習時數_九上"];//52
+
+
                             row["本土語言認證"] = ddSMaps.ContainsKey(csr.ID + delimiter + "本土語言認證") ? 2 : 0;//48
                             //row["本土語言認證證書"] = ddSMaps.ContainsKey(csr.ID + delimiter + "本土語言認證證書") ? 3 : 0;//49
                             strtmp = "";
@@ -559,7 +590,7 @@ namespace JH.HS.DataExchange._103
             string path = Path.Combine(Application.StartupPath, "Reports");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            path = Path.Combine(path, reportName + ".xls");
+            path = Path.Combine(path, reportName + ".xlsx");
 
             Workbook wb = inputXls;
 
@@ -583,20 +614,21 @@ namespace JH.HS.DataExchange._103
 
             try
             {
-                wb.Save(path, Aspose.Cells.FileFormatType.Excel2003);
+                
+                wb.Save(path);
                 System.Diagnostics.Process.Start(path);
             }
             catch
             {
                 SaveFileDialog sd = new SaveFileDialog();
                 sd.Title = "另存新檔";
-                sd.FileName = reportName + ".xls";
-                sd.Filter = "XLS檔案 (*.xls)|*.xls|所有檔案 (*.*)|*.*";
+                sd.FileName = reportName + ".xlsx";
+                sd.Filter = "XLSX檔案 (*.xlsx)|*.xlsx|所有檔案 (*.*)|*.*";
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        wb.Save(sd.FileName, Aspose.Cells.FileFormatType.Excel2003);
+                        wb.Save(sd.FileName);
 
                     }
                     catch

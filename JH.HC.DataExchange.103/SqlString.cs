@@ -10,9 +10,10 @@ namespace JH.HS.DataExchange._103
         public static string Query1 = @"
 select 
     student.id
-    ,sss.健康與體育
+    ,sss.健體
     ,sss.藝術
-    ,sss.綜合活動
+    ,sss.綜合
+	,sss.科技
     ,disc.大功支數
     ,disc.小功支數
     ,disc.嘉獎支數
@@ -30,9 +31,10 @@ from
     left outer join 
     (
         select student.id
-			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""健康與體育""
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""健體""
 			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""藝術""
-			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""綜合活動""
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""綜合""
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as ""科技""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join 
@@ -230,9 +232,10 @@ WITH target AS(
 )
 select 
     student.id
-    ,sss.健康與體育
+    ,sss.健體
     ,sss.藝術
-    ,sss.綜合活動
+    ,sss.綜合
+	,sss.科技
     ,disc.大功支數
     ,disc.小功支數
     ,disc.嘉獎支數
@@ -250,9 +253,10 @@ from
     left outer join 
     (
         select student.id
-			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as 健康與體育
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as 健體
 			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as 藝術
-			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as 綜合活動
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as 綜合
+			,case when avg(cast( regexp_replace( xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績'), '^$', '0') as float)) >= 60 then '1' else '0' end as 科技
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join 

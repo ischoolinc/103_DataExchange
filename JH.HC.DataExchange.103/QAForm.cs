@@ -35,8 +35,9 @@ namespace JH.HS.DataExchange._103
             DataGridViewRow dgvrow3 = new DataGridViewRow();
             dgvrow3.CreateCells(dataGridViewX1);
             dgvrow3.Cells[0].Value = "均衡學習";
-            dgvrow3.Cells[1].Value = @"以健體、藝術及綜合三項領域採計之各學期加總平均成績達及格者換算，3 領域皆符合( 15 分)，2 領域皆符合( 10 分)，1 領域皆符合 (5 分)";
-            dgvrow3.Cells[2].Value = "扶助弱勢/就近入學/均衡學習，合併上限( 30 分 )";
+            // dgvrow3.Cells[1].Value = @"以健體、藝術及綜合三項領域採計之各學期加總平均成績達及格者換算，3 領域皆符合( 15 分)，2 領域皆符合( 10 分)，1 領域皆符合 (5 分)";
+            dgvrow3.Cells[1].Value = @"以健體、藝術、綜合及科技四項領域採計之各學期加總平均成績達及格者換算，4 領域皆符合( 15 分)，3 領域皆符合( 12 分)，2 領域皆符合( 8 分)，1 領域皆符合 ( 4 分)";
+            dgvrow3.Cells[2].Value = "扶助弱勢 /就近入學/均衡學習，合併上限( 30 分 )";
             dataGridViewX1.Rows.Add(dgvrow3);
 
             DataGridViewRow dgvrow4 = new DataGridViewRow();
