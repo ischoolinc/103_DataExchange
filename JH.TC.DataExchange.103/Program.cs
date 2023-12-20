@@ -166,12 +166,12 @@ namespace JH.TC.DataExchange._103
                     #region 在Sql中處理的:健康與體育,藝術與人文(註解),藝術,綜合活動,科技,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
                     SqlString ob = new SqlString();
 
-                    // debug save text file
-                    using (StreamWriter sw = new StreamWriter("e:\\test.txt"))
-                    {
-                        sw.WriteLine(SqlString.Query(_date));
-                        sw.Close();
-                    }
+                    //// debug save text file
+                    //using (StreamWriter sw = new StreamWriter("e:\\test.txt"))
+                    //{
+                    //    sw.WriteLine(SqlString.Query(_date));
+                    //    sw.Close();
+                    //}
                     
                     tmp = _Q.Select(SqlString.Query(_date));
 
