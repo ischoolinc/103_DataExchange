@@ -50,10 +50,10 @@ WITH target_datetime AS(
 ) ,target_sems_score AS(
     SELECT
         sss.ref_student_id 
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 健康與體育
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 藝術
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 綜合活動
-        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績'), '^$', '0') AS float)) >= 60 THEN 3 ELSE 0 END AS 科技   
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 健體
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''藝術'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 藝術
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 綜合
+        ,CASE WHEN AVG(cast( regexp_replace( xpath_string('<root>'||sss.score_info||'</root>','/root/Domains/Domain[@領域=''科技'']/@成績'), '^$', '0') AS float)) >= 60 THEN 1 ELSE 0 END AS 科技   
     FROM
         target_student
         LEFT OUTER JOIN (
@@ -314,9 +314,9 @@ GROUP BY target_student.id
 
 SELECT 
     target_student.id
-    ,CASE WHEN target_sems_score.健康與體育 is null THEN 0 ELSE target_sems_score.健康與體育 END as 健康與體育
+    ,CASE WHEN target_sems_score.健體 is null THEN 0 ELSE target_sems_score.健體 END as 健體
     ,CASE WHEN target_sems_score.藝術 is null THEN 0 ELSE target_sems_score.藝術 END as 藝術
-    ,CASE WHEN target_sems_score.綜合活動 is null THEN 0 ELSE target_sems_score.綜合活動 END as 綜合活動 
+    ,CASE WHEN target_sems_score.綜合 is null THEN 0 ELSE target_sems_score.綜合 END as 綜合 
     ,CASE WHEN target_sems_score.科技 is null THEN 0 ELSE target_sems_score.科技 END as 科技 
     ,CASE 
         WHEN (total_demerit.大過支數 * 9 + total_demerit.小過支數 * 3 + total_demerit.警告支數) = 0 THEN 6 

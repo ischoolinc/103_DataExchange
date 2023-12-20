@@ -244,10 +244,10 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("通訊地址");
                     dt.Columns.Add("就近入學", typeof(int));
                     dt.Columns.Add("偏遠地區", typeof(int));
-                    dt.Columns.Add("健康與體育", typeof(int));
+                    dt.Columns.Add("健體", typeof(int));
                     //dt.Columns.Add("藝術與人文", typeof(int));
                     dt.Columns.Add("藝術", typeof(int));
-                    dt.Columns.Add("綜合活動", typeof(int));
+                    dt.Columns.Add("綜合", typeof(int));
                     dt.Columns.Add("科技", typeof(int));
                     dt.Columns.Add("記過紀錄", typeof(int));
                     dt.Columns.Add("大功支數", typeof(int));
@@ -391,10 +391,10 @@ namespace JH.TC.DataExchange._103
 
                         if (dSGrade.ContainsKey(csr.ID))
                         {
-                            row["健康與體育"] = dSGrade[csr.ID]["健康與體育"];//dSGrade[csr.ID][1];//32
+                            row["健體"] = dSGrade[csr.ID]["健體"];//dSGrade[csr.ID][1];//32
                             //row["藝術與人文"] = dSGrade[csr.ID]["藝術與人文"];//dSGrade[csr.ID][2];//33
                             row["藝術"] = dSGrade[csr.ID]["藝術"];//dSGrade[csr.ID][2];//33
-                            row["綜合活動"] = dSGrade[csr.ID]["綜合活動"];//dSGrade[csr.ID][3];//34
+                            row["綜合"] = dSGrade[csr.ID]["綜合"];//dSGrade[csr.ID][3];//34
                             row["科技"] = dSGrade[csr.ID]["科技"];
                             row["記過紀錄"] = dSGrade[csr.ID]["記過紀錄"];//dSGrade[csr.ID][4];//35
                             row["大功支數"] = dSGrade[csr.ID]["大功支數"];//dSGrade[csr.ID][5];//36
