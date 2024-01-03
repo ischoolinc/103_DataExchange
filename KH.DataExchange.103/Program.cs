@@ -239,7 +239,7 @@ namespace KH.DataExchange._103
             string path = Path.Combine(Application.StartupPath, "Reports");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            path = Path.Combine(path, reportName + ".xls");
+            path = Path.Combine(path, reportName + ".xlsx");
 
             Workbook wb = inputXls;
 
@@ -262,20 +262,20 @@ namespace KH.DataExchange._103
 
             try
             {
-                wb.Save(path, Aspose.Cells.FileFormatType.Excel2003);
+                wb.Save(path, FileFormatType.Xlsx);
                 System.Diagnostics.Process.Start(path);
             }
             catch
             {
                 SaveFileDialog sd = new SaveFileDialog();
                 sd.Title = "另存新檔";
-                sd.FileName = reportName + ".xls";
-                sd.Filter = "XLS檔案 (*.xls)|*.xls|所有檔案 (*.*)|*.*";
+                sd.FileName = reportName + ".xlsx";
+                sd.Filter = "Excel檔案 (*.xlsx)|*.xlsx|所有檔案 (*.*)|*.*";
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        wb.Save(sd.FileName, Aspose.Cells.FileFormatType.Excel2003);
+                        wb.Save(sd.FileName, FileFormatType.Xlsx);
 
                     }
                     catch
