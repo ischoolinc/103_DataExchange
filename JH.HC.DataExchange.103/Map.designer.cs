@@ -498,7 +498,7 @@
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(248, 23);
             this.labelX2.TabIndex = 49;
-            this.labelX2.Text = "服務學習、獎懲紀錄，積分採計截止日期";
+            this.labelX2.Text = "缺曠紀錄、獎懲紀錄，積分採計截止日期";
             // 
             // dateTimeInput1
             // 

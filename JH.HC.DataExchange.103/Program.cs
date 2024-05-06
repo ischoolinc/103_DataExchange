@@ -60,8 +60,11 @@ namespace JH.HS.DataExchange._103
                     }
                     //sids.Sort();
                     bkw.ReportProgress(20);
-                    //List<AttendanceRecord> arl = K12.Data.Attendance.SelectByStudentIDs(sids);
+                    List<AttendanceRecord> arl = K12.Data.Attendance.SelectByStudentIDs(sids);
+
                     var arl2 = K12.BusinessLogic.AutoSummary.Select(sids, null);
+
+
                     List<custStudentRecord> csrl = new List<custStudentRecord>();
 
                     tmp = _Q.Select("SELECT student.*," +
@@ -83,6 +86,9 @@ namespace JH.HS.DataExchange._103
                     string delimiter = "^^^";
                     #region 檢查有無曠課記錄//36~39
                     Dictionary<string, PeriodMappingInfo> dPmi = K12.Data.PeriodMapping.SelectAll().ToDictionary(x => x.Name, x => x);
+
+
+                    // 2024/5/6，因為竹苗113缺曠規則調整，統計受到日期限制，所以檢查學生缺曠資料(受到日期限制)+非明細統計資料
                     foreach (var ar in arl2)
                     {
                         if (ar.RefStudentID == "-1") continue;
@@ -101,11 +107,13 @@ namespace JH.HS.DataExchange._103
                         }
                         catch (Exception exx)
                         {
-
+                            Console.WriteLine(exx.Message);
                         }
                         #endregion
-                        foreach (var ap in ar.AbsenceCounts)
-                        {//ap.Name
+                        // 改成讀取非明細
+                        //foreach (var ap in ar.AbsenceCounts)
+                        foreach (var ap in ar.InitialAbsenceCounts)
+                        {
                             foreach (AbsenceMapRecord amr in amrl)
                             {
                                 if (amr.absence == ap.Name && amr.period_type == ap.PeriodType)
@@ -132,41 +140,59 @@ namespace JH.HS.DataExchange._103
                             }
                         }
                     }
-                    //foreach (AttendanceRecord ar in arl)
-                    //{
-                    //    int arGrade = 0;
-                    //    #region match GradeYear
-                    //    foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
-                    //    {
-                    //        if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
-                    //            arGrade = item.GradeYear;
-                    //    }
 
-                    //    #endregion
-                    //    foreach (AttendancePeriod ap in ar.PeriodDetail)
-                    //    {
-                    //        foreach (AbsenceMapRecord amr in amrl)
-                    //        {
-                    //            if (amr.absence == ap.AbsenceType && dPmi.ContainsKey(ap.Period) && amr.period_type == dPmi[ap.Period].Type)
-                    //            {
-                    //                switch (arGrade + "" + ar.Semester)
-                    //                {
-                    //                    case "21":
-                    //                    case "81":
-                    //                    case "22":
-                    //                    case "82":
-                    //                    case "31":
-                    //                    case "91":
-                    //                    case "32":
-                    //                    case "92":
-                    //                        if (!dSGsA.ContainsKey(ar.RefStudentID + delimiter + arGrade + ar.Semester))
-                    //                            dSGsA.Add(ar.RefStudentID + delimiter + arGrade + ar.Semester, 1);
-                    //                        break;
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    // 學生缺曠資料要受到日期限制
+
+                    DateTime dtAttendance = dtAttendance = DateTime.Now;
+                    // 有成功parse限制日期
+                    DateTime.TryParse(_date, out dtAttendance);
+
+
+                    foreach (AttendanceRecord ar in arl)
+                    {
+                        // 日期超過限制日期，不處理
+                        if (ar.OccurDate > dtAttendance)
+                            continue;
+
+                        int arGrade = 0;
+                        #region match GradeYear
+                        foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
+                        {
+                            if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
+                                arGrade = item.GradeYear;
+                        }
+
+                        #endregion
+                        foreach (AttendancePeriod ap in ar.PeriodDetail)
+                        {
+                            foreach (AbsenceMapRecord amr in amrl)
+                            {
+                                if (amr.absence == ap.AbsenceType && dPmi.ContainsKey(ap.Period) && amr.period_type == dPmi[ap.Period].Type)
+                                {
+                                    switch (arGrade + "" + ar.Semester)
+                                    {
+                                        case "11":
+                                        case "71":
+                                        case "12":
+                                        case "72":
+                                        case "21":
+                                        case "81":
+                                        case "22":
+                                        case "82":
+                                        case "31":
+                                        case "91":
+                                        case "32":
+                                        case "92":
+                                            if (!dSGsA.ContainsKey(ar.RefStudentID + delimiter + arGrade + ar.Semester))
+                                                dSGsA.Add(ar.RefStudentID + delimiter + arGrade + ar.Semester, 1);
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
                     #endregion
                     #region 在Sql中處理的:健康與體育,藝術,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
 
@@ -614,7 +640,7 @@ namespace JH.HS.DataExchange._103
 
             try
             {
-                
+
                 wb.Save(path);
                 System.Diagnostics.Process.Start(path);
             }

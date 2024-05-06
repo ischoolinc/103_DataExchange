@@ -438,8 +438,7 @@ from
 					        or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
 					        or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
 					        or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
-				        )
-					INNER JOIN target  ON x1.occur_date <= target.end_date 
+				        )					
 			    group by student.id
             ) as slr on student.id = slr.id
 INNER JOIN target ON student.id=target.student_id
