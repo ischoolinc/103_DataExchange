@@ -241,7 +241,7 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("市內電話分機");
                     dt.Columns.Add("行動電話");
                     dt.Columns.Add("郵遞區號");
-                    dt.Columns.Add("通訊地址");
+                    dt.Columns.Add("聯絡地址");
                     dt.Columns.Add("就近入學", typeof(int));
                     dt.Columns.Add("偏遠地區", typeof(int));
                     dt.Columns.Add("健體", typeof(int));
@@ -377,7 +377,7 @@ namespace JH.TC.DataExchange._103
 
 
                         row["郵遞區號"] = zipCode;//26
-                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[" + zipCode + "]", "") : "";//27
+                        row["聯絡地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[" + zipCode + "]", "") : "";//27
                                                                                                                             //row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
                                                                                                                             //// 處理特殊生加分百分比
                                                                                                                             // foreach (KeyValuePair<string, string> item in new Dictionary<string, string>(){
