@@ -19,6 +19,9 @@ namespace KH.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
+            //  使用者選的年級
+            string SelectedGradeYear = "";
+
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
             cat.Add(new FISCA.Permission.RibbonFeature("90B751EE-8ADD-4AE8-A09F-1732D2DD9D8B", "高雄區免試入學資料轉檔"));
 
@@ -26,6 +29,7 @@ namespace KH.DataExchange._103
             var button = FISCA.Presentation.MotherForm.RibbonBarItems["教務作業", "十二年國教"]["高雄區免試入學資料轉檔"];
             button.Enable = FISCA.Permission.UserAcl.Current["90B751EE-8ADD-4AE8-A09F-1732D2DD9D8B"].Executable;
             Exception error = null;
+
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
             bkw.WorkerReportsProgress = true;
             bkw.ProgressChanged += delegate (object sender, System.ComponentModel.ProgressChangedEventArgs e)
@@ -45,7 +49,21 @@ namespace KH.DataExchange._103
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     DataTable dt_source, student;
-                    student = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (3, 9)");
+                    //     student = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (" + SelectedGradeYear + ")");
+
+                    string query = string.Format(@"
+                    SELECT
+                        student.id
+                    FROM
+                        student
+                        INNER JOIN class ON student.ref_class_id = class.id
+                    WHERE
+                        student.status = 1
+                        AND class.grade_year = {0} 
+                    ", SelectedGradeYear);
+
+                    student = _Q.Select(query);
+
                     List<string> sids = new List<string>();
                     sids.Add("-1");
                     foreach (DataRow row in student.Rows)
@@ -57,7 +75,7 @@ namespace KH.DataExchange._103
                     {
 
 
-                        dt_source = _Q.Select(SqlString.MultivariateScore);
+                        dt_source = _Q.Select(SqlString.MultivariateScore(SelectedGradeYear));
                         List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(sids);
                         Dictionary<string, SemesterHistoryRecord> shrl = K12.Data.SemesterHistory.SelectByStudentIDs(sids).ToDictionary(x => x.RefStudentID, x => x);
                         Dictionary<string, string> dsSchoolyear = new Dictionary<string, string>();
@@ -166,7 +184,7 @@ namespace KH.DataExchange._103
                         bkw.ReportProgress(80);
 
                         CompletedXls("高雄區多元成績交換資料格式", dt_tmp, new Workbook());
-                        dt_tmp = _Q.Select(SqlString.IncentiveRecord);
+                        dt_tmp = _Q.Select(SqlString.IncentiveRecord(SelectedGradeYear));
                         //DataTable newDt_tmp = new DataTable();
                         //foreach (DataRow dr in dt_tmp.Rows)
                         //{
@@ -193,7 +211,14 @@ namespace KH.DataExchange._103
                 if (!bkw.IsBusy)
                 {
                     button.Enable = false;
-                    bkw.RunWorkerAsync();
+
+                    frmSelectGradeYear frm = new frmSelectGradeYear();
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        SelectedGradeYear = frm.GetSelectedGradeYear();
+                        bkw.RunWorkerAsync();
+                    }
+                    button.Enable = true;
                 }
             };
         }
