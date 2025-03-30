@@ -124,7 +124,7 @@ namespace KH.DataExchange._103
 
                         bkw.ReportProgress(60);
                         //List<string> l = new List<string> { "藝術與人文", "健康與體育", "綜合活動", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
-                        List<string> l = new List<string> { "藝術", "健康與體育", "綜合活動", "科技", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+                        List<string> l = new List<string> { "藝術", "健康與體育", "綜合活動", "科技", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "800/1600公尺跑走", "仰臥捲腹", "漸速耐力跑" };
 
                         Dictionary<string, Dictionary<string, DataRow>> rowMapping = new Dictionary<string, Dictionary<string, DataRow>>();
                         int index = 0;
@@ -174,9 +174,11 @@ namespace KH.DataExchange._103
                                 foreach (var key in l)
                                 {
                                     var row = rowMapping[ssn][key];
-                                    row[13] = "";
-                                    row[14] = "";
-                                    row[15] = "";
+                                    //row[13] = "";
+                                    //row[14] = "";
+                                    //row[15] = "";
+                                    //row[16] = "";
+                                    //row[17] = "";
                                     dt_tmp.ImportRow(row);
                                 }
                             }
