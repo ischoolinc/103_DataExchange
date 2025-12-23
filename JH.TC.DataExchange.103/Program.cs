@@ -163,7 +163,7 @@ namespace JH.TC.DataExchange._103
                     //    }
                     //}
                     #endregion
-                    #region 在Sql中處理的:健康與體育,藝術與人文(註解),藝術,綜合活動,科技,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
+                    #region 在Sql中處理的:健康與體育,藝術與人文(註解),藝術,綜合活動,科技,大功次數,小功次數,嘉獎次數,大過次數,小過次數,警告次數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
                     SqlString ob = new SqlString();
 
                     //// debug save text file
@@ -250,9 +250,9 @@ namespace JH.TC.DataExchange._103
                     dt.Columns.Add("綜合", typeof(int));
                     dt.Columns.Add("科技", typeof(int));
                     dt.Columns.Add("記過紀錄", typeof(int));
-                    dt.Columns.Add("大功支數", typeof(int));
-                    dt.Columns.Add("小功支數", typeof(int));
-                    dt.Columns.Add("嘉獎支數", typeof(int));
+                    dt.Columns.Add("大功次數", typeof(int));
+                    dt.Columns.Add("小功次數", typeof(int));
+                    dt.Columns.Add("嘉獎次數", typeof(int));
                     dt.Columns.Add("服務學習得分", typeof(int));
                     dt.Columns.Add("社團得分", typeof(int));
                     #endregion
@@ -397,9 +397,9 @@ namespace JH.TC.DataExchange._103
                             row["綜合"] = dSGrade[csr.ID]["綜合"];//dSGrade[csr.ID][3];//34
                             row["科技"] = dSGrade[csr.ID]["科技"];
                             row["記過紀錄"] = dSGrade[csr.ID]["記過紀錄"];//dSGrade[csr.ID][4];//35
-                            row["大功支數"] = dSGrade[csr.ID]["大功支數"];//dSGrade[csr.ID][5];//36
-                            row["小功支數"] = dSGrade[csr.ID]["小功支數"];//dSGrade[csr.ID][6];//37
-                            row["嘉獎支數"] = dSGrade[csr.ID]["嘉獎支數"];//dSGrade[csr.ID][7];//38
+                            row["大功次數"] = dSGrade[csr.ID]["大功次數"];//dSGrade[csr.ID][5];//36
+                            row["小功次數"] = dSGrade[csr.ID]["小功次數"];//dSGrade[csr.ID][6];//37
+                            row["嘉獎次數"] = dSGrade[csr.ID]["嘉獎次數"];//dSGrade[csr.ID][7];//38
                             row["服務學習得分"] = dSGrade[csr.ID]["服務學習得分"];//dSGrade[csr.ID][8];// dSGrade[csr.ID][10];//39
                             row["社團得分"] = dSGrade[csr.ID]["社團得分"];//dSGrade[csr.ID][9];// dSGrade[csr.ID][11];//40
                         }

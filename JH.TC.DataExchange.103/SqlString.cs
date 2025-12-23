@@ -28,14 +28,14 @@ WITH target_datetime AS(
 ) ,target_sems_history AS(
     SELECT 
         history.id
-        , ('0'||unnest(xpath('/History/@SchoolYear', history_xml))::text)::integer AS school_year
-        , ('0'||unnest(xpath('/History/@Semester', history_xml))::text)::integer AS semester
-        , ('0'||unnest(xpath('/History/@GradeYear', history_xml))::text)::integer AS grade_year
-        , unnest(xpath('/History/@ClassName', history_xml))::text AS class_name
-        , unnest(xpath('/History/@DeptName', history_xml))::text AS dept_name
-        , unnest(xpath('/History/@SeatNo', history_xml))::text AS seat_no
-        , unnest(xpath('/History/@Teacher', history_xml))::text AS teacher
-        , unnest(xpath('/History/@SchoolDayCount', history_xml))::text AS school_day_count
+        , ('0'||unnest(xpath('//History/@SchoolYear', history_xml))::text)::integer AS school_year
+        , ('0'||unnest(xpath('//History/@Semester', history_xml))::text)::integer AS semester
+        , ('0'||unnest(xpath('//History/@GradeYear', history_xml))::text)::integer AS grade_year
+        , unnest(xpath('//History/@ClassName', history_xml))::text AS class_name
+        , unnest(xpath('//History/@DeptName', history_xml))::text AS dept_name
+        , unnest(xpath('//History/@SeatNo', history_xml))::text AS seat_no
+        , unnest(xpath('//History/@Teacher', history_xml))::text AS teacher
+        , unnest(xpath('//History/@SchoolDayCount', history_xml))::text AS school_day_count
         , history_xml
     FROM (
         SELECT 
@@ -87,17 +87,17 @@ WITH target_datetime AS(
             WHEN SUM(大過) IS NULL 
             THEN 0 
             ELSE SUM(大過) 
-        END AS 大過支數
+        END AS 大過次數
         ,CASE 
             WHEN SUM(小過) IS NULL 
             THEN 0 
             ELSE SUM(小過) 
-        END AS 小過支數
+        END AS 小過次數
         ,CASE 
             WHEN SUM(警告) IS NULL 
             THEN 0 
             ELSE SUM(警告) 
-        END AS 警告支數
+        END AS 警告次數
     FROM
         target_student
         LEFT OUTER JOIN (
@@ -118,17 +118,17 @@ WITH target_datetime AS(
             WHEN SUM(大過) IS NULL 
             THEN 0 
             ELSE SUM(大過) 
-        END AS 大過支數
+        END AS 大過次數
         ,CASE 
             WHEN SUM(小過) IS NULL 
             THEN 0 
             ELSE SUM(小過) 
-        END AS 小過支數
+        END AS 小過次數
         ,CASE 
             WHEN SUM(警告) IS NULL 
             THEN 0 
             ELSE SUM(警告) 
-        END AS 警告支數
+        END AS 警告次數
     FROM
         target_student
         LEFT OUTER JOIN(
@@ -174,9 +174,9 @@ WITH target_datetime AS(
 ) ,total_demerit AS(
     SELECT
         total.id
-        , CASE WHEN SUM(大過支數) IS NULL THEN 0 ELSE SUM(大過支數) END AS 大過支數
-        , CASE WHEN SUM(小過支數) IS NULL THEN 0 ELSE SUM(小過支數) END AS 小過支數
-        , CASE WHEN SUM(警告支數) IS NULL THEN 0 ELSE SUM(警告支數) END AS 警告支數
+        , CASE WHEN SUM(大過次數) IS NULL THEN 0 ELSE SUM(大過次數) END AS 大過次數
+        , CASE WHEN SUM(小過次數) IS NULL THEN 0 ELSE SUM(小過次數) END AS 小過次數
+        , CASE WHEN SUM(警告次數) IS NULL THEN 0 ELSE SUM(警告次數) END AS 警告次數
     FROM(
         SELECT * FROM target_demerit
         UNION ALL
@@ -191,17 +191,17 @@ WITH target_datetime AS(
             WHEN SUM(大功) IS NULL 
             THEN 0 
             ELSE SUM(大功) 
-        END AS 大功支數
+        END AS 大功次數
         ,CASE 
             WHEN SUM(小功) IS NULL 
             THEN 0 
             ELSE SUM(小功) 
-        END AS 小功支數
+        END AS 小功次數
         ,CASE 
             WHEN SUM(嘉獎) IS NULL 
             THEN 0 
             ELSE SUM(嘉獎) 
-        END AS 嘉獎支數
+        END AS 嘉獎次數
     FROM
         target_student
         LEFT OUTER JOIN (
@@ -223,17 +223,17 @@ WITH target_datetime AS(
             WHEN SUM(大功) IS NULL 
             THEN 0 
             ELSE SUM(大功) 
-        END AS 大功支數
+        END AS 大功次數
         ,CASE 
             WHEN SUM(小功) IS NULL 
             THEN 0 
             ELSE SUM(小功) 
-        END AS 小功支數
+        END AS 小功次數
         ,CASE 
             WHEN SUM(嘉獎) IS NULL 
             THEN 0 
             ELSE SUM(嘉獎) 
-        END AS 嘉獎支數
+        END AS 嘉獎次數
     FROM(
         SELECT
             discipline.ref_student_id
@@ -252,9 +252,9 @@ WITH target_datetime AS(
 ) ,total_merit AS (
     SELECT
         total.id
-        , CASE WHEN SUM(大功支數) IS NULL THEN 0 ELSE SUM(大功支數) END AS 大功支數
-        , CASE WHEN SUM(小功支數) IS NULL THEN 0 ELSE SUM(小功支數) END AS 小功支數
-        , CASE WHEN SUM(嘉獎支數) IS NULL THEN 0 ELSE SUM(嘉獎支數) END AS 嘉獎支數
+        , CASE WHEN SUM(大功次數) IS NULL THEN 0 ELSE SUM(大功次數) END AS 大功次數
+        , CASE WHEN SUM(小功次數) IS NULL THEN 0 ELSE SUM(小功次數) END AS 小功次數
+        , CASE WHEN SUM(嘉獎次數) IS NULL THEN 0 ELSE SUM(嘉獎次數) END AS 嘉獎次數
     FROM(
         SELECT * FROM target_merit
         UNION ALL
@@ -319,13 +319,13 @@ SELECT
     ,CASE WHEN target_sems_score.綜合 is null THEN 0 ELSE target_sems_score.綜合 END as 綜合 
     ,CASE WHEN target_sems_score.科技 is null THEN 0 ELSE target_sems_score.科技 END as 科技 
     ,CASE 
-        WHEN (total_demerit.大過支數 * 9 + total_demerit.小過支數 * 3 + total_demerit.警告支數) = 0 THEN 6 
-        WHEN (total_demerit.大過支數 * 9 + total_demerit.小過支數 * 3 + total_demerit.警告支數) >= 3 THEN 0 
+        WHEN (total_demerit.大過次數 * 9 + total_demerit.小過次數 * 3 + total_demerit.警告次數) = 0 THEN 6 
+        WHEN (total_demerit.大過次數 * 9 + total_demerit.小過次數 * 3 + total_demerit.警告次數) >= 3 THEN 0 
         ELSE 3 
     END as 記過紀錄
-    ,CASE WHEN total_merit.大功支數 is null THEN 0 ELSE total_merit.大功支數 END as 大功支數
-    ,CASE WHEN total_merit.小功支數 is null THEN 0 ELSE total_merit.小功支數 END as 小功支數
-    ,CASE WHEN total_merit.嘉獎支數 is null THEN 0 ELSE total_merit.嘉獎支數 END as 嘉獎支數
+    ,CASE WHEN total_merit.大功次數 is null THEN 0 ELSE total_merit.大功次數 END as 大功次數
+    ,CASE WHEN total_merit.小功次數 is null THEN 0 ELSE total_merit.小功次數 END as 小功次數
+    ,CASE WHEN total_merit.嘉獎次數 is null THEN 0 ELSE total_merit.嘉獎次數 END as 嘉獎次數
     ,LEAST(
         3 , 
         (
@@ -436,17 +436,17 @@ FROM
 //			WHEN SUM(大過) IS NULL 
 //			THEN 0 
 //			ELSE SUM(大過) 
-//		END AS 大過支數
+//		END AS 大過次數
 //		,CASE 
 //			WHEN SUM(小過) IS NULL 
 //			THEN 0 
 //			ELSE SUM(小過) 
-//		END AS 小過支數
+//		END AS 小過次數
 //		,CASE 
 //			WHEN SUM(警告) IS NULL 
 //			THEN 0 
 //			ELSE SUM(警告) 
-//		END AS 警告支數
+//		END AS 警告次數
 //	FROM
 //		target_student
 //		LEFT OUTER JOIN (
@@ -467,17 +467,17 @@ FROM
 //			WHEN SUM(大過) IS NULL 
 //			THEN 0 
 //			ELSE SUM(大過) 
-//		END AS 大過支數
+//		END AS 大過次數
 //		,CASE 
 //			WHEN SUM(小過) IS NULL 
 //			THEN 0 
 //			ELSE SUM(小過) 
-//		END AS 小過支數
+//		END AS 小過次數
 //		,CASE 
 //			WHEN SUM(警告) IS NULL 
 //			THEN 0 
 //			ELSE SUM(警告) 
-//		END AS 警告支數
+//		END AS 警告次數
 //	FROM
 //		target_student
 //		LEFT OUTER JOIN(
@@ -523,9 +523,9 @@ FROM
 //) ,total_demerit AS(
 //	SELECT
 //		total.id
-//		, CASE WHEN SUM(大過支數) IS NULL THEN 0 ELSE SUM(大過支數) END AS 大過支數
-//		, CASE WHEN SUM(小過支數) IS NULL THEN 0 ELSE SUM(小過支數) END AS 小過支數
-//		, CASE WHEN SUM(警告支數) IS NULL THEN 0 ELSE SUM(警告支數) END AS 警告支數
+//		, CASE WHEN SUM(大過次數) IS NULL THEN 0 ELSE SUM(大過次數) END AS 大過次數
+//		, CASE WHEN SUM(小過次數) IS NULL THEN 0 ELSE SUM(小過次數) END AS 小過次數
+//		, CASE WHEN SUM(警告次數) IS NULL THEN 0 ELSE SUM(警告次數) END AS 警告次數
 //	FROM(
 //		SELECT * FROM target_demerit
 //		UNION ALL
@@ -540,17 +540,17 @@ FROM
 //			WHEN SUM(大功) IS NULL 
 //			THEN 0 
 //			ELSE SUM(大功) 
-//		END AS 大功支數
+//		END AS 大功次數
 //		,CASE 
 //			WHEN SUM(小功) IS NULL 
 //			THEN 0 
 //			ELSE SUM(小功) 
-//		END AS 小功支數
+//		END AS 小功次數
 //		,CASE 
 //			WHEN SUM(嘉獎) IS NULL 
 //			THEN 0 
 //			ELSE SUM(嘉獎) 
-//		END AS 嘉獎支數
+//		END AS 嘉獎次數
 //	FROM
 //		target_student
 //		LEFT OUTER JOIN (
@@ -572,17 +572,17 @@ FROM
 //			WHEN SUM(大功) IS NULL 
 //			THEN 0 
 //			ELSE SUM(大功) 
-//		END AS 大功支數
+//		END AS 大功次數
 //		,CASE 
 //			WHEN SUM(小功) IS NULL 
 //			THEN 0 
 //			ELSE SUM(小功) 
-//		END AS 小功支數
+//		END AS 小功次數
 //		,CASE 
 //			WHEN SUM(嘉獎) IS NULL 
 //			THEN 0 
 //			ELSE SUM(嘉獎) 
-//		END AS 嘉獎支數
+//		END AS 嘉獎次數
 //	FROM(
 //		SELECT
 //			discipline.ref_student_id
@@ -601,9 +601,9 @@ FROM
 //) ,total_merit AS (
 //	SELECT
 //		total.id
-//		, CASE WHEN SUM(大功支數) IS NULL THEN 0 ELSE SUM(大功支數) END AS 大功支數
-//		, CASE WHEN SUM(小功支數) IS NULL THEN 0 ELSE SUM(小功支數) END AS 小功支數
-//		, CASE WHEN SUM(嘉獎支數) IS NULL THEN 0 ELSE SUM(嘉獎支數) END AS 嘉獎支數
+//		, CASE WHEN SUM(大功次數) IS NULL THEN 0 ELSE SUM(大功次數) END AS 大功次數
+//		, CASE WHEN SUM(小功次數) IS NULL THEN 0 ELSE SUM(小功次數) END AS 小功次數
+//		, CASE WHEN SUM(嘉獎次數) IS NULL THEN 0 ELSE SUM(嘉獎次數) END AS 嘉獎次數
 //	FROM(
 //		SELECT * FROM target_merit
 //		UNION ALL
@@ -667,13 +667,13 @@ FROM
 //    ,CASE WHEN target_sems_score.藝術與人文 is null THEN 0 ELSE target_sems_score.藝術與人文 END as 藝術與人文
 //    ,CASE WHEN target_sems_score.綜合活動 is null THEN 0 ELSE target_sems_score.綜合活動 END as 綜合活動 
 //    ,CASE 
-//        WHEN (total_demerit.大過支數 * 9 + total_demerit.小過支數 * 3 + total_demerit.警告支數) = 0 THEN 6 
-//        WHEN (total_demerit.大過支數 * 9 + total_demerit.小過支數 * 3 + total_demerit.警告支數) >= 3 THEN 0 
+//        WHEN (total_demerit.大過次數 * 9 + total_demerit.小過次數 * 3 + total_demerit.警告次數) = 0 THEN 6 
+//        WHEN (total_demerit.大過次數 * 9 + total_demerit.小過次數 * 3 + total_demerit.警告次數) >= 3 THEN 0 
 //        ELSE 3 
 //    END as 記過紀錄
-//    ,CASE WHEN total_merit.大功支數 is null THEN 0 ELSE total_merit.大功支數 END as 大功支數
-//    ,CASE WHEN total_merit.小功支數 is null THEN 0 ELSE total_merit.小功支數 END as 小功支數
-//    ,CASE WHEN total_merit.嘉獎支數 is null THEN 0 ELSE total_merit.嘉獎支數 END as 嘉獎支數
+//    ,CASE WHEN total_merit.大功次數 is null THEN 0 ELSE total_merit.大功次數 END as 大功次數
+//    ,CASE WHEN total_merit.小功次數 is null THEN 0 ELSE total_merit.小功次數 END as 小功次數
+//    ,CASE WHEN total_merit.嘉獎次數 is null THEN 0 ELSE total_merit.嘉獎次數 END as 嘉獎次數
 //    ,LEAST(
 //        3 , 
 //        (
@@ -712,13 +712,13 @@ FROM
 		//    ,CASE WHEN sss.藝術與人文 is null THEN 0 ELSE sss.藝術與人文 END as ""藝術與人文""
 		//    ,CASE WHEN sss.綜合活動 is null THEN 0 ELSE sss.綜合活動 END as ""綜合活動""
 		//    ,CASE 
-		//        WHEN (discde.大過支數 * 9 + discde.小過支數 * 3 + discde.警告支數) = 0 THEN 6 
-		//        WHEN (discde.大過支數 * 9 + discde.小過支數 * 3 + discde.警告支數) >= 3 THEN 0 
+		//        WHEN (discde.大過次數 * 9 + discde.小過次數 * 3 + discde.警告次數) = 0 THEN 6 
+		//        WHEN (discde.大過次數 * 9 + discde.小過次數 * 3 + discde.警告次數) >= 3 THEN 0 
 		//        ELSE 3 
 		//    END as ""記過紀錄""
-		//    ,CASE WHEN disc.大功支數 is null THEN 0 ELSE disc.大功支數 END as ""大功支數""
-		//    ,CASE WHEN disc.小功支數 is null THEN 0 ELSE disc.小功支數 END as ""小功支數""
-		//    ,CASE WHEN disc.嘉獎支數 is null THEN 0 ELSE disc.嘉獎支數 END as ""嘉獎支數""
+		//    ,CASE WHEN disc.大功次數 is null THEN 0 ELSE disc.大功次數 END as ""大功次數""
+		//    ,CASE WHEN disc.小功次數 is null THEN 0 ELSE disc.小功次數 END as ""小功次數""
+		//    ,CASE WHEN disc.嘉獎次數 is null THEN 0 ELSE disc.嘉獎次數 END as ""嘉獎次數""
 		//    ,LEAST(
 		//        3 , 
 		//        (
@@ -772,9 +772,9 @@ FROM
 		//    (
 		//	    select 
 		//			student.id
-		//			,CASE WHEN sum(大功) is null THEN 0 ELSE sum(大功) END as ""大功支數""
-		//			,CASE WHEN sum(小功) is null THEN 0 ELSE sum(小功) END as ""小功支數""
-		//			,CASE WHEN sum(嘉獎) is null THEN 0 ELSE sum(嘉獎) END as ""嘉獎支數""
+		//			,CASE WHEN sum(大功) is null THEN 0 ELSE sum(大功) END as ""大功次數""
+		//			,CASE WHEN sum(小功) is null THEN 0 ELSE sum(小功) END as ""小功次數""
+		//			,CASE WHEN sum(嘉獎) is null THEN 0 ELSE sum(嘉獎) END as ""嘉獎次數""
 		//		from 
 		//			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 		//			left join (
@@ -840,9 +840,9 @@ FROM
 		//    (
 		//	    select 
 		//			student.id
-		//			,CASE WHEN sum(大過) is null THEN 0 ELSE sum(大過) END as ""大過支數""
-		//			,CASE WHEN sum(小過) is null THEN 0 ELSE sum(小過) END as ""小過支數""
-		//			,CASE WHEN sum(警告) is null THEN 0 ELSE sum(警告) END as ""警告支數""
+		//			,CASE WHEN sum(大過) is null THEN 0 ELSE sum(大過) END as ""大過次數""
+		//			,CASE WHEN sum(小過) is null THEN 0 ELSE sum(小過) END as ""小過次數""
+		//			,CASE WHEN sum(警告) is null THEN 0 ELSE sum(警告) END as ""警告次數""
 		//		from 
 		//			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 		//			left join (
